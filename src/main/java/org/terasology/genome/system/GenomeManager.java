@@ -20,7 +20,7 @@ import org.terasology.entitySystem.entity.EntityRef;
 /**
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
-public interface GeneticsManager {
+public interface GenomeManager {
     /**
      * Returns whether the specified two organisms can breed.
      *
