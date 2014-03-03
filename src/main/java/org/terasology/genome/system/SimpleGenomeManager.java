@@ -38,27 +38,18 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
         GenomeComponent genome2 = organism2.getComponent(GenomeComponent.class);
 
-        if (genome1 == null || genome2 == null
-                || !genome1.genomeId.equals(genome2.genomeId)) {
-            return false;
-        }
-
-        GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
-        if (genomeDefinition == null) {
-            return false;
-        }
-
-        return genomeDefinition.getBreedingAlgorithm().canCross(genome1.genes, genome2.genes);
+        return canBreedInternal(genome1, genome2);
     }
 
     @Override
     public boolean applyBreeding(EntityRef organism1, EntityRef organism2, EntityRef offspring) {
-        if (!canBreed(organism1, organism2)) {
+        GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
+        GenomeComponent genome2 = organism2.getComponent(GenomeComponent.class);
+
+        if (!canBreedInternal(genome1, genome2)) {
             return false;
         }
 
-        GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
-        GenomeComponent genome2 = organism2.getComponent(GenomeComponent.class);
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
 
         String resultGenes = genomeDefinition.getBreedingAlgorithm().produceCross(genome1.genes, genome2.genes);
@@ -73,6 +64,20 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         offspring.addComponent(resultGenome);
 
         return true;
+    }
+
+    private boolean canBreedInternal(GenomeComponent genome1, GenomeComponent genome2) {
+        if (genome1 == null || genome2 == null
+                || !genome1.genomeId.equals(genome2.genomeId)) {
+            return false;
+        }
+
+        GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
+        if (genomeDefinition == null) {
+            return false;
+        }
+
+        return genomeDefinition.getBreedingAlgorithm().canCross(genome1.genes, genome2.genes);
     }
 
     @Override
