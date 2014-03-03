@@ -31,7 +31,7 @@ public class GeneIndexGenomeMap implements GenomeMap {
     }
 
     @Override
-    public <T> T getProperty(String property, String genome, Class<T> type) {
+    public <T> T getProperty(String property, String genes, Class<T> type) {
         GenePropertyDefinition<T> definition = propertyDefinitionMap.get(property);
         if (definition == null) {
             return null;
@@ -41,7 +41,7 @@ public class GeneIndexGenomeMap implements GenomeMap {
         }
         StringBuilder genesForProperty = new StringBuilder(definition.geneIndices.length);
         for (int i = 0; i < definition.geneIndices.length; i++) {
-            genesForProperty.append(genome.charAt(definition.geneIndices[i]));
+            genesForProperty.append(genes.charAt(definition.geneIndices[i]));
         }
         return (T) definition.transformation.apply(genesForProperty.toString());
     }

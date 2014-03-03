@@ -16,10 +16,24 @@
 package org.terasology.genome;
 
 /**
+ * Registry used for registering organism types.
+ *
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 public interface GenomeRegistry {
+    /**
+     * Registers the organism type.
+     *
+     * @param typeId           Unique type of an organism.
+     * @param genomeDefinition Definition of the genome for that organism.
+     */
     void registerType(String typeId, GenomeDefinition genomeDefinition);
 
+    /**
+     * Returns a genome definition for the specified organism type.
+     *
+     * @param typeId Type of an organism.
+     * @return GenomeDefition for that organism type.
+     */
     GenomeDefinition getGenomeDefinition(String typeId);
 }

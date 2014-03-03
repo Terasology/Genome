@@ -18,6 +18,8 @@ package org.terasology.genome.system;
 import org.terasology.entitySystem.entity.EntityRef;
 
 /**
+ * Provides a set of utility methods used for both: breeding the organisms, as well as extracting property of an organism.
+ *
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 public interface GenomeManager {
