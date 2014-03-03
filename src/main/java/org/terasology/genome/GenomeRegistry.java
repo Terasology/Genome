@@ -33,7 +33,7 @@ public interface GenomeRegistry {
      * Returns a genome definition for the specified organism type.
      *
      * @param typeId Type of an organism.
-     * @return GenomeDefition for that organism type.
+     * @return GenomeDefinition for that organism type.
      */
     GenomeDefinition getGenomeDefinition(String typeId);
 }
