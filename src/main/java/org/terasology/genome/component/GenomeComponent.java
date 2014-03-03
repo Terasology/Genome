@@ -18,12 +18,14 @@ package org.terasology.genome.component;
 import org.terasology.entitySystem.Component;
 import org.terasology.logic.inventory.ItemDifferentiating;
 import org.terasology.world.block.ForceBlockActive;
+import org.terasology.world.block.items.AddToBlockBasedItem;
 
 /**
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 @ForceBlockActive
 @ItemDifferentiating
+@AddToBlockBasedItem
 public class GenomeComponent implements Component {
     public String genomeId;
     public String genes;
