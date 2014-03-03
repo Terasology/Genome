@@ -15,6 +15,7 @@
  */
 package org.terasology.genome.breed;
 
+import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
 /**
@@ -24,13 +25,13 @@ public class SimpleBreedingAlgorithm implements BreedingAlgorithm {
     private int genomeLength;
     private int minimumCrossSimilarity;
     private float mutationChance;
-    private String genomeVocabulary;
+    private GeneMutator geneMutator;
 
-    public SimpleBreedingAlgorithm(int genomeLength, int minimumCrossSimilarity, float mutationChance, String genomeVocabulary) {
+    public SimpleBreedingAlgorithm(int genomeLength, int minimumCrossSimilarity, float mutationChance, GeneMutator geneMutator) {
         this.genomeLength = genomeLength;
         this.minimumCrossSimilarity = minimumCrossSimilarity;
         this.mutationChance = mutationChance;
-        this.genomeVocabulary = genomeVocabulary;
+        this.geneMutator = geneMutator;
     }
 
     @Override
@@ -69,7 +70,7 @@ public class SimpleBreedingAlgorithm implements BreedingAlgorithm {
 
         if (mutationChance >= rand.nextFloat()) {
             int geneIndex = rand.nextInt(genomeLength);
-            char gene = genomeVocabulary.charAt(rand.nextInt(genomeVocabulary.length()));
+            char gene = geneMutator.mutateGene(rand.nextFloat(), geneIndex, result.charAt(geneIndex));
             result.replace(geneIndex, geneIndex + 1, "" + gene);
         }
 
