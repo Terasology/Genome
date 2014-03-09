@@ -29,4 +29,25 @@ import org.terasology.world.block.items.AddToBlockBasedItem;
 public class GenomeComponent implements Component {
     public String genomeId;
     public String genes;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        GenomeComponent that = (GenomeComponent) o;
+
+        if (genes != null ? !genes.equals(that.genes) : that.genes != null) {
+            return false;
+        }
+        if (genomeId != null ? !genomeId.equals(that.genomeId) : that.genomeId != null) {
+            return false;
+        }
+
+        return true;
+    }
 }

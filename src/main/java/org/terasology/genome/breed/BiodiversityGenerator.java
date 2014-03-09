@@ -15,6 +15,8 @@
  */
 package org.terasology.genome.breed;
 
+import org.terasology.anotherWorld.util.alpha.IdentityAlphaFunction;
+import org.terasology.anotherWorld.util.alpha.UniformNoiseAlpha;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.math.TeraMath;
 import org.terasology.math.Vector2i;
@@ -33,6 +35,7 @@ public class BiodiversityGenerator {
     private String baseGenome;
     private GeneMutator geneMutator;
     private float areaDiversity;
+    private UniformNoiseAlpha uniformNoise = new UniformNoiseAlpha(IdentityAlphaFunction.singleton());
 
     /**
      * @param worldSeed          World seed.
@@ -60,12 +63,15 @@ public class BiodiversityGenerator {
         }
     }
 
+    private float getValueFromNoise(Noise2D noise, float x, float y) {
+        return uniformNoise.apply((float) TeraMath.clamp(((noise.noise(x, y) + 1) / 2f)));
+    }
+
     public String generateGenes(Vector2i worldLocation) {
         char[] result = baseGenome.toCharArray();
         for (int i = 0; i < mutationPositionNoises.length; i++) {
-            int mutationPosition = TeraMath.floorToInt(result.length *
-                    mutationPositionNoises[i].noise(areaDiversity * worldLocation.x, areaDiversity * worldLocation.y));
-            float mutationInput = (float) mutationInputNoises[i].noise(areaDiversity * worldLocation.x, areaDiversity * worldLocation.y);
+            int mutationPosition = TeraMath.floorToInt(result.length * getValueFromNoise(mutationPositionNoises[i], areaDiversity * worldLocation.x, areaDiversity * worldLocation.y));
+            float mutationInput = getValueFromNoise(mutationInputNoises[i], areaDiversity * worldLocation.x, areaDiversity * worldLocation.y);
             result[mutationPosition] = geneMutator.mutateGene(mutationInput, mutationPosition, result[mutationPosition]);
         }
         return new String(result);
