@@ -15,6 +15,7 @@
  */
 package org.terasology.genome.breed.mutator;
 
+import com.google.common.base.Predicate;
 import org.terasology.math.TeraMath;
 
 /**
@@ -22,13 +23,23 @@ import org.terasology.math.TeraMath;
  */
 public class VocabularyGeneMutator implements GeneMutator {
     private char[] vocabulary;
+    private Predicate<Integer> mutableGeneIndices;
 
     public VocabularyGeneMutator(String genesVocabulary) {
         vocabulary = genesVocabulary.toCharArray();
     }
 
+    public VocabularyGeneMutator(String genesVocabulary, Predicate<Integer> mutableGeneIndices) {
+        vocabulary = genesVocabulary.toCharArray();
+        this.mutableGeneIndices = mutableGeneIndices;
+    }
+
     @Override
     public char mutateGene(float input, int geneIndex, char geneValue) {
-        return vocabulary[TeraMath.floorToInt(input * vocabulary.length)];
+        if (mutableGeneIndices == null || mutableGeneIndices.apply(geneIndex)) {
+            return vocabulary[TeraMath.floorToInt(input * vocabulary.length)];
+        } else {
+            return geneValue;
+        }
     }
 }
