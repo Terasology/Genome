@@ -31,10 +31,20 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
         this.mapSeed = mapSeed;
     }
 
-    public <T> void addSeedBasedProperty(String propertyName, int genomeLength, int codeLength, Class<T> type, Function<String, T> geneStringTransformation) {
+    public <T> void addSeedBasedProperty(String propertyName, int minGeneIndex, int maxGeneIndex, int codeLength, Class<T> type, Function<String, T> geneStringTransformation) {
+        if (maxGeneIndex < minGeneIndex || maxGeneIndex - minGeneIndex + 1 > codeLength) {
+            throw new IllegalArgumentException("Incorrectly configured gene indices");
+        }
         String seed = CoreRegistry.get(WorldProvider.class).getSeed();
         FastRandom rand = new FastRandom(seed.hashCode() + propertyName.hashCode() + mapSeed);
-        int[] selectedGeneIndices = CombinatoricsUtils.getRandomPermutationIndicesWithoutRepetition(codeLength, genomeLength, rand);
+        int[] selectedGeneIndices = CombinatoricsUtils.getRandomPermutationIndicesWithoutRepetition(codeLength, maxGeneIndex - minGeneIndex, rand);
+        for (int i = 0; i < codeLength; i++) {
+            selectedGeneIndices[i] += minGeneIndex;
+        }
         addProperty(propertyName, selectedGeneIndices, type, geneStringTransformation);
+    }
+
+    public <T> void addSeedBasedProperty(String propertyName, int genomeLength, int codeLength, Class<T> type, Function<String, T> geneStringTransformation) {
+        addSeedBasedProperty(propertyName, 0, genomeLength, codeLength, type, geneStringTransformation);
     }
 }
