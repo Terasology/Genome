@@ -17,6 +17,7 @@ package org.terasology.genome.component;
 
 import org.terasology.entitySystem.Component;
 import org.terasology.logic.inventory.ItemDifferentiating;
+import org.terasology.network.Replicate;
 import org.terasology.world.block.ForceBlockActive;
 import org.terasology.world.block.items.AddToBlockBasedItem;
 
@@ -26,6 +27,7 @@ import org.terasology.world.block.items.AddToBlockBasedItem;
 @ForceBlockActive
 @ItemDifferentiating
 @AddToBlockBasedItem
+@Replicate
 public class GenomeComponent implements Component {
     public String genomeId;
     public String genes;
