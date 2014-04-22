@@ -27,9 +27,10 @@ import org.terasology.world.block.items.AddToBlockBasedItem;
 @ForceBlockActive
 @ItemDifferentiating
 @AddToBlockBasedItem
-@Replicate
 public class GenomeComponent implements Component {
+    @Replicate
     public String genomeId;
+    @Replicate
     public String genes;
 
     @Override
