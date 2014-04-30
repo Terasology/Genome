@@ -18,18 +18,13 @@ package org.terasology.genome.breed;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
-/**
- * @author Marcin Sciesinski <marcins78@gmail.com>
- */
-public class SimpleBreedingAlgorithm implements BreedingAlgorithm {
-    private int genomeLength;
-    private int minimumCrossSimilarity;
+public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
+    private BreedingRule breedingRule;
     private float mutationChance;
     private GeneMutator geneMutator;
 
-    public SimpleBreedingAlgorithm(int genomeLength, int minimumCrossSimilarity, float mutationChance, GeneMutator geneMutator) {
-        this.genomeLength = genomeLength;
-        this.minimumCrossSimilarity = minimumCrossSimilarity;
+    public DiploidBreedingAlgorithm(BreedingRule breedingRule, float mutationChance, GeneMutator geneMutator) {
+        this.breedingRule = breedingRule;
         this.mutationChance = mutationChance;
         this.geneMutator = geneMutator;
     }
@@ -38,17 +33,7 @@ public class SimpleBreedingAlgorithm implements BreedingAlgorithm {
     public boolean canCross(String genes1, String genes2) {
         validateGenes(genes1, genes2);
 
-        int sameGenesCount = 0;
-        char[] chars1 = genes1.toCharArray();
-        char[] chars2 = genes2.toCharArray();
-
-        for (int i = 0; i < genomeLength; i++) {
-            if (chars1[i] == chars2[i]) {
-                sameGenesCount++;
-            }
-        }
-
-        return sameGenesCount >= minimumCrossSimilarity;
+        return breedingRule.canBreed(genes1, genes2);
     }
 
     @Override
@@ -56,6 +41,8 @@ public class SimpleBreedingAlgorithm implements BreedingAlgorithm {
         if (!canCross(genes1, genes2)) {
             return null;
         }
+
+        int genomeLength = genes1.length() / 2;
 
         FastRandom rand = new FastRandom();
 
@@ -65,21 +52,22 @@ public class SimpleBreedingAlgorithm implements BreedingAlgorithm {
         char[] chars2 = genes2.toCharArray();
 
         for (int i = 0; i < genomeLength; i++) {
-            result.append(rand.nextBoolean() ? chars1[i] : chars2[i]);
+            result.append(rand.nextBoolean() ? chars1[i * 2] : chars1[i * 2 + 1]);
+            result.append(rand.nextBoolean() ? chars2[i * 2] : chars2[i * 2 + 1]);
         }
 
         if (mutationChance >= rand.nextFloat()) {
-            int geneIndex = rand.nextInt(genomeLength);
+            int geneIndex = rand.nextInt(genomeLength * 2);
+
             char gene = geneMutator.mutateGene(rand.nextFloat(), geneIndex, result.charAt(geneIndex));
             result.replace(geneIndex, geneIndex + 1, "" + gene);
         }
 
-        return result.toString();
+        return null;
     }
 
     private void validateGenes(String genes1, String genes2) {
-        if (genes1 == null || genes2 == null || genes1.length() != genes2.length()
-                || genes1.length() != genomeLength) {
+        if (genes1 == null || genes2 == null || genes1.length() != genes2.length() || (genes1.length() % 2) != 0) {
             throw new IllegalArgumentException("Genomes not defined or of incorrect length");
         }
     }
