@@ -16,5 +16,5 @@
 package org.terasology.genome.breed;
 
 public interface BreedingRule {
-    public boolean canBreed(String genome1, String genome2);
+    boolean canBreed(String genome1, String genome2);
 }

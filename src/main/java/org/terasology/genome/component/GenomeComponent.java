@@ -53,4 +53,11 @@ public class GenomeComponent implements Component {
 
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int result = genomeId != null ? genomeId.hashCode() : 0;
+        result = 31 * result + (genes != null ? genes.hashCode() : 0);
+        return result;
+    }
 }

@@ -28,7 +28,7 @@ import org.terasology.registry.Share;
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 @RegisterSystem
-@Share(value = {GenomeManager.class})
+@Share(GenomeManager.class)
 public class SimpleGenomeManager extends BaseComponentSystem implements GenomeManager {
     @In
     private GenomeRegistry genomeRegistry;

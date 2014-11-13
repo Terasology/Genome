@@ -70,7 +70,8 @@ public class BiodiversityGenerator {
     public String generateGenes(Vector2i worldLocation) {
         char[] result = baseGenome.toCharArray();
         for (int i = 0; i < mutationPositionNoises.length; i++) {
-            int mutationPosition = TeraMath.floorToInt(result.length * getValueFromNoise(mutationPositionNoises[i], areaDiversity * worldLocation.x, areaDiversity * worldLocation.y));
+            int mutationPosition = TeraMath.floorToInt(result.length
+                    * getValueFromNoise(mutationPositionNoises[i], areaDiversity * worldLocation.x, areaDiversity * worldLocation.y));
             float mutationInput = getValueFromNoise(mutationInputNoises[i], areaDiversity * worldLocation.x, areaDiversity * worldLocation.y);
             result[mutationPosition] = geneMutator.mutateGene(mutationInput, mutationPosition, result[mutationPosition]);
         }

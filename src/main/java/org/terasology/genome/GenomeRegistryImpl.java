@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 @RegisterSystem
-@Share(value = {GenomeRegistry.class})
+@Share(GenomeRegistry.class)
 public class GenomeRegistryImpl extends BaseComponentSystem implements GenomeRegistry {
     private Map<String, GenomeDefinition> genomeDefinitionMap = new HashMap<>();
 

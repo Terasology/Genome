@@ -29,5 +29,5 @@ public interface GeneMutator {
      * @param geneValue Gene value before mutation.
      * @return New gene to replaced the mutated gene.
      */
-    public char mutateGene(float input, int geneIndex, char geneValue);
+    char mutateGene(float input, int geneIndex, char geneValue);
 }

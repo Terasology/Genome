@@ -31,7 +31,8 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
         this.mapSeed = mapSeed;
     }
 
-    public <T> void addSeedBasedProperty(String propertyName, int minGeneIndex, int maxGeneIndex, int codeLength, Class<T> type, Function<String, T> geneStringTransformation) {
+    public <T> void addSeedBasedProperty(String propertyName, int minGeneIndex, int maxGeneIndex, int codeLength,
+                                         Class<T> type, Function<String, T> geneStringTransformation) {
         if (maxGeneIndex < minGeneIndex || maxGeneIndex - minGeneIndex + 1 < codeLength) {
             throw new IllegalArgumentException("Incorrectly configured gene indices");
         }

@@ -46,7 +46,7 @@ public class GeneIndexGenomeMap implements GenomeMap {
         return (T) definition.transformation.apply(genesForProperty.toString());
     }
 
-    private static class GenePropertyDefinition<T> {
+    private static final class GenePropertyDefinition<T> {
         private int[] geneIndices;
         private Class<T> type;
         private Function<String, T> transformation;
