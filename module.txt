@@ -1,17 +1,19 @@
 {
     "id" : "Genome",
-    "version" : "0.1.0",
+    "version" : "0.1.1-SNAPSHOT",
     "author" : "Marcin Sciesinski <marcins78@gmail.com>",
     "displayName" : "Genome",
     "description" : "Allows to define an organism type (say herbs) in a module, define the properties they have based on the DNA (genes) and this module will handle breeding organisms and their DNA changes (including mutations).",
     "dependencies" : [
             {
                 "id" : "Core",
-                "minVersion" : "0.53.1"
+                "minVersion" : "0.53.1",
+                "maxVersion" : "0.55.0"
             },
             {
                 "id" : "AnotherWorld",
-                "minVersion" : "0.1.0"
+                "minVersion" : "0.1.0",
+                "maxVersion" : "0.3.0"
             }],
     "isServerSideOnly" : false
 }
