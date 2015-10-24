@@ -19,8 +19,8 @@ import org.terasology.anotherWorld.util.alpha.IdentityAlphaFunction;
 import org.terasology.anotherWorld.util.alpha.UniformNoiseAlpha;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.math.TeraMath;
-import org.terasology.math.Vector2i;
-import org.terasology.utilities.procedural.Noise2D;
+import org.terasology.math.geom.Vector2i;
+import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.SimplexNoise;
 import org.terasology.utilities.random.FastRandom;
 
@@ -30,8 +30,8 @@ import org.terasology.utilities.random.FastRandom;
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 public class BiodiversityGenerator {
-    private Noise2D[] mutationPositionNoises;
-    private Noise2D[] mutationInputNoises;
+    private Noise[] mutationPositionNoises;
+    private Noise[] mutationInputNoises;
     private String baseGenome;
     private GeneMutator geneMutator;
     private float areaDiversity;
@@ -55,16 +55,16 @@ public class BiodiversityGenerator {
         FastRandom random = new FastRandom(worldSeed.hashCode() + diversitySeed);
 
         this.baseGenome = baseGenome;
-        mutationPositionNoises = new Noise2D[diversityMagnitude];
-        mutationInputNoises = new Noise2D[diversityMagnitude];
+        mutationPositionNoises = new Noise[diversityMagnitude];
+        mutationInputNoises = new Noise[diversityMagnitude];
         for (int i = 0; i < diversityMagnitude; i++) {
             mutationPositionNoises[i] = new SimplexNoise(random.nextInt());
             mutationInputNoises[i] = new SimplexNoise(random.nextInt());
         }
     }
 
-    private float getValueFromNoise(Noise2D noise, float x, float y) {
-        return uniformNoise.apply((float) TeraMath.clamp(((noise.noise(x, y) + 1) / 2f)));
+    private float getValueFromNoise(Noise noise, float x, float y) {
+        return uniformNoise.apply(TeraMath.clamp(noise.noise(x, y) + 1) / 2f);
     }
 
     public String generateGenes(Vector2i worldLocation) {
