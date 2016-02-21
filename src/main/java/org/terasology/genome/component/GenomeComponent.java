@@ -25,9 +25,8 @@ import org.terasology.world.block.items.AddToBlockBasedItem;
  * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 @ForceBlockActive
-@ItemDifferentiating
 @AddToBlockBasedItem
-public class GenomeComponent implements Component {
+public class GenomeComponent implements Component, ItemDifferentiating {
     @Replicate
     public String genomeId;
     @Replicate
