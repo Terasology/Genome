@@ -23,18 +23,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Marcin Sciesinski <marcins78@gmail.com>
+ * A basic implementation of the Genome Registry interface.
  */
 @RegisterSystem
 @Share(GenomeRegistry.class)
 public class GenomeRegistryImpl extends BaseComponentSystem implements GenomeRegistry {
     private Map<String, GenomeDefinition> genomeDefinitionMap = new HashMap<>();
 
+    /**
+     * Register a new organism type.
+     *
+     * @param typeId           Unique type of an organism
+     * @param genomeDefinition Definition of the genome for that organism
+     */
     @Override
     public void registerType(String typeId, GenomeDefinition genomeDefinition) {
         genomeDefinitionMap.put(typeId, genomeDefinition);
     }
 
+    /**
+     * Get the genome definition of a given organism type.
+     *
+     * @param typeId Type of an organism
+     * @return       The genome definition of the organism type
+     */
     @Override
     public GenomeDefinition getGenomeDefinition(String typeId) {
         return genomeDefinitionMap.get(typeId);

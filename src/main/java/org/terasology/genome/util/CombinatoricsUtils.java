@@ -21,12 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Marcin Sciesinski <marcins78@gmail.com>
+ * Class containing utility functions pertaining to combinatorics.
  */
 public final class CombinatoricsUtils {
     private CombinatoricsUtils() {
     }
 
+    /**
+     * Get random permutation indices without any repetition.
+     *
+     * @param count The number of indices desired
+     * @param max   The maximum value of the indices
+     * @param rand  A FastRandom generator
+     * @return      An array of length <code>count</code> containing random indices with maximum value <code>max</code>
+     */
     public static int[] getRandomPermutationIndicesWithoutRepetition(int count, int max, FastRandom rand) {
         if (count > max) {
             throw new IllegalArgumentException("Count cannot be larger than max");

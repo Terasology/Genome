@@ -16,9 +16,7 @@
 package org.terasology.genome.breed.mutator;
 
 /**
- * Class providing mechanism for mutating a gene.
- *
- * @author Marcin Sciesinski <marcins78@gmail.com>
+ * A class that provides mechanism for mutating a gene.
  */
 public interface GeneMutator {
     /**
@@ -27,7 +25,7 @@ public interface GeneMutator {
      * @param input     Input into the mutator algorithm, value in [0, 1) range.
      * @param geneIndex Index of the gene being mutated.
      * @param geneValue Gene value before mutation.
-     * @return New gene to replaced the mutated gene.
+     * @return          New gene to replaced the mutated gene.
      */
     char mutateGene(float input, int geneIndex, char geneValue);
 }

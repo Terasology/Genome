@@ -19,7 +19,7 @@ import com.google.common.base.Predicate;
 import org.terasology.math.TeraMath;
 
 /**
- * @author Marcin Sciesinski <marcins78@gmail.com>
+ * A simple implementation of the GeneMutator interface.
  */
 public class VocabularyGeneMutator implements GeneMutator {
     private char[] vocabulary;
@@ -34,6 +34,14 @@ public class VocabularyGeneMutator implements GeneMutator {
         this.mutableGeneIndices = mutableGeneIndices;
     }
 
+    /**
+     * Returns a gene to replace the gene specified after mutation.
+     *
+     * @param input     Input into the mutator algorithm, value in [0, 1) range.
+     * @param geneIndex Index of the gene being mutated.
+     * @param geneValue Gene value before mutation.
+     * @return          New gene to replaced the mutated gene.
+     */
     @Override
     public char mutateGene(float input, int geneIndex, char geneValue) {
         if (mutableGeneIndices == null || mutableGeneIndices.apply(geneIndex)) {

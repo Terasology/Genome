@@ -25,7 +25,7 @@ import org.terasology.registry.In;
 import org.terasology.registry.Share;
 
 /**
- * @author Marcin Sciesinski <marcins78@gmail.com>
+ * A simple genome manager implementation.
  */
 @RegisterSystem
 @Share(GenomeManager.class)
@@ -33,6 +33,13 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
     @In
     private GenomeRegistry genomeRegistry;
 
+    /**
+     * Returns whether the specified two organisms can breed.
+     *
+     * @param organism1 The first organism
+     * @param organism2 The second organism
+     * @return          Whether the two organisms can breed
+     */
     @Override
     public boolean canBreed(EntityRef organism1, EntityRef organism2) {
         GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
@@ -41,6 +48,15 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         return canBreedInternal(genome1, genome2);
     }
 
+    /**
+     * Applies genetic information to the offspring by breeding the two given organisms. If the two organisms cannot
+     * breed, <code>false</code> will be returned, and no changes will be made to the offspring.
+     *
+     * @param organism1 The first organism
+     * @param organism2 The second organism
+     * @param offspring The offspring
+     * @return          Whether the two organisms were bred successfully and the resulting information was applied to the offspring
+     */
     @Override
     public boolean applyBreeding(EntityRef organism1, EntityRef organism2, EntityRef offspring) {
         GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
@@ -80,6 +96,13 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         return genomeDefinition.getBreedingAlgorithm().canCross(genome1.genes, genome2.genes);
     }
 
+    /**
+     * Returns the named property for that organism, as defined by GenomeMap its genome was registered with.
+     *
+     * @param organism     The organism whose property is to be fetched
+     * @param propertyName The name of the property to be fetched
+     * @return             The property of the organism with the given name
+     */
     @Override
     public <T> T getGenomeProperty(EntityRef organism, String propertyName, Class<T> type) {
         GenomeComponent genome = organism.getComponent(GenomeComponent.class);

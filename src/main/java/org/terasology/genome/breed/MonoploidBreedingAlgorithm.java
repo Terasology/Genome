@@ -19,7 +19,7 @@ import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
 /**
- * @author Marcin Sciesinski <marcins78@gmail.com>
+ * A breeding algorithm that produces a monoploid (haploid) cross.
  */
 public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
     private int minimumCrossSimilarity;
@@ -32,6 +32,13 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
         this.geneMutator = geneMutator;
     }
 
+    /**
+     * Check whether two organisms with the given genes can breed.
+     *
+     * @param genes1 The genes of the first organism
+     * @param genes2 The genes of the second organism
+     * @return       Whether the two organisms can breed
+     */
     @Override
     public boolean canCross(String genes1, String genes2) {
         validateGenes(genes1, genes2);
@@ -51,6 +58,13 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
         return sameGenesCount >= minimumCrossSimilarity;
     }
 
+    /**
+     * Produces the genes of an offspring from parent organisms with the genes specified.
+     *
+     * @param genes1 The genes of the first parent organism
+     * @param genes2 The genes of the second parent organism
+     * @return       The genes of an offspring from the two parent organisms
+     */
     @Override
     public String produceCross(String genes1, String genes2) {
         if (!canCross(genes1, genes2)) {

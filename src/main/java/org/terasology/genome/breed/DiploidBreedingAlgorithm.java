@@ -18,6 +18,9 @@ package org.terasology.genome.breed;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
+/**
+ * A breeding algorithm that produces a diploid cross.
+ */
 public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
     private BreedingRule breedingRule;
     private float mutationChance;
@@ -29,6 +32,13 @@ public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
         this.geneMutator = geneMutator;
     }
 
+    /**
+     * Check whether two organisms with the given genes can breed.
+     *
+     * @param genes1 The genes of the first organism
+     * @param genes2 The genes of the second organism
+     * @return       Whether the two organisms can breed
+     */
     @Override
     public boolean canCross(String genes1, String genes2) {
         validateGenes(genes1, genes2);
@@ -36,6 +46,13 @@ public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
         return breedingRule.canBreed(genes1, genes2);
     }
 
+    /**
+     * Produces the genes of an offspring from parent organisms with the genes specified.
+     *
+     * @param genes1 The genes of the first parent organism
+     * @param genes2 The genes of the second parent organism
+     * @return       The genes of an offspring from the two parent organisms
+     */
     @Override
     public String produceCross(String genes1, String genes2) {
         if (!canCross(genes1, genes2)) {

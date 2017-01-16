@@ -22,16 +22,25 @@ import org.terasology.world.block.ForceBlockActive;
 import org.terasology.world.block.items.AddToBlockBasedItem;
 
 /**
- * @author Marcin Sciesinski <marcins78@gmail.com>
+ * A component that defines genome-related attributes of an entity.
  */
 @ForceBlockActive
 @AddToBlockBasedItem
 public class GenomeComponent implements Component, ItemDifferentiating {
+    /** The type of the genome. */
     @Replicate
     public String genomeId;
+
+    /** The sequence of genes contained by the genome. */
     @Replicate
     public String genes;
 
+    /**
+     * Check whether this genome component is equal to a given object.
+     *
+     * @param o The object with which the genome component is to be compared
+     * @return  Whether the genome component is equal to the given object.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -53,6 +62,11 @@ public class GenomeComponent implements Component, ItemDifferentiating {
         return true;
     }
 
+    /**
+     * Get the hash code of the genome component.
+     *
+     * @return The hash code of the genome component
+     */
     @Override
     public int hashCode() {
         int result = genomeId != null ? genomeId.hashCode() : 0;

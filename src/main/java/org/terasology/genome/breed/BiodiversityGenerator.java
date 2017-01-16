@@ -26,8 +26,6 @@ import org.terasology.utilities.random.FastRandom;
 
 /**
  * Assists in generating organisms that have diverse genes based on their spawn area.
- *
- * @author Marcin Sciesinski <marcins78@gmail.com>
  */
 public class BiodiversityGenerator {
     private Noise[] mutationPositionNoises;
@@ -38,6 +36,8 @@ public class BiodiversityGenerator {
     private UniformNoiseAlpha uniformNoise = new UniformNoiseAlpha(IdentityAlphaFunction.singleton());
 
     /**
+     * Parametrized constructor.
+     *
      * @param worldSeed          World seed.
      * @param diversitySeed      Diversity seed - unique value for each instance of this class that is used to populate organisms.
      * @param geneMutator        Mutator used to mutate genes of this one species-group.
@@ -67,6 +67,12 @@ public class BiodiversityGenerator {
         return uniformNoise.apply(TeraMath.clamp(noise.noise(x, y) + 1) / 2f);
     }
 
+    /**
+     * Generate the genes of an organism at a given world location which the organism is expected to inhabit.
+     *
+     * @param worldLocation The location which the organism is expected to inhabit
+     * @return              The genes of an organism expected to inhabit the given location
+     */
     public String generateGenes(Vector2i worldLocation) {
         char[] result = baseGenome.toCharArray();
         for (int i = 0; i < mutationPositionNoises.length; i++) {
