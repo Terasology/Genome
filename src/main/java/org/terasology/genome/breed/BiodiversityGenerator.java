@@ -36,7 +36,7 @@ public class BiodiversityGenerator {
     private UniformNoiseAlpha uniformNoise = new UniformNoiseAlpha(IdentityAlphaFunction.singleton());
 
     /**
-     * Parametrized constructor.
+     * Constructor preparing a range of noise and probabilities to be used by this generator.
      *
      * @param worldSeed          World seed.
      * @param diversitySeed      Diversity seed - unique value for each instance of this class that is used to populate organisms.
