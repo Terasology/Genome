@@ -36,7 +36,7 @@ public final class CombinatoricsUtils {
      * @return      An array of length <code>count</code> containing random indices with maximum value <code>max</code>
      */
     public static int[] getRandomPermutationIndicesWithoutRepetition(int count, int max, FastRandom rand) {
-        if (count > max) {
+        if (count > max + 1) {
             throw new IllegalArgumentException("Count cannot be larger than max");
         }
 
