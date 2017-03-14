@@ -36,13 +36,13 @@ public final class CombinatoricsUtils {
      * @return      An array of length <code>count</code> containing random indices with maximum value <code>max</code>
      */
     public static int[] getRandomPermutationIndicesWithoutRepetition(int count, int max, FastRandom rand) {
-        if (count > max) {
+        if (count > max + 1) {
             throw new IllegalArgumentException("Count cannot be larger than max");
         }
 
         // The slow way, but good enough for what we need for now
         List<Integer> lookup = new ArrayList<>();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i <= max; i++) {
             lookup.add(i);
         }
 
