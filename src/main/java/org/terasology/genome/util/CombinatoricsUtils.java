@@ -42,7 +42,7 @@ public final class CombinatoricsUtils {
 
         // The slow way, but good enough for what we need for now
         List<Integer> lookup = new ArrayList<>();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i <= max; i++) {
             lookup.add(i);
         }
 
