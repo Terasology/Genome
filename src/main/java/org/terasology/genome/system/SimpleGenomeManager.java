@@ -16,11 +16,14 @@
 package org.terasology.genome.system;
 
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.event.EventPriority;
+import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.genome.GenomeDefinition;
 import org.terasology.genome.GenomeRegistry;
 import org.terasology.genome.component.GenomeComponent;
+import org.terasology.genome.events.OnBreed;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
 
@@ -32,6 +35,17 @@ import org.terasology.registry.Share;
 public class SimpleGenomeManager extends BaseComponentSystem implements GenomeManager {
     @In
     private GenomeRegistry genomeRegistry;
+
+    @ReceiveEvent(priority = EventPriority.PRIORITY_CRITICAL)
+    public void Breed(OnBreed event, EntityRef entity, GenomeComponent genomeComponent) {
+        EntityRef organism1 = event.getOrganism1();
+        EntityRef organism2 = event.getOrganism2();
+        EntityRef offspring = event.getOffspring();
+
+        if (organism1.hasComponent(GenomeComponent.class) && organism2.hasComponent(GenomeComponent.class)) {
+            applyBreeding(organism1, organism2, offspring);
+        }
+    }
 
     /**
      * Returns whether the specified two organisms can breed.
@@ -77,7 +91,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         resultGenome.genomeId = genome1.genomeId;
         resultGenome.genes = resultGenes;
 
-        offspring.addComponent(resultGenome);
+        offspring.addOrSaveComponent(resultGenome);
 
         return true;
     }
