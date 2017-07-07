@@ -36,7 +36,7 @@ public class FavourableWeightedBreedingAlgorithm implements BreedingAlgorithm {
      *
      * @param genes1 The genes of the first organism
      * @param genes2 The genes of the second organism
-     * @return       Whether the two organisms can breed
+     * @return Whether the two organisms can breed
      */
     @Override
     public boolean canCross(String genes1, String genes2) {
@@ -62,7 +62,7 @@ public class FavourableWeightedBreedingAlgorithm implements BreedingAlgorithm {
      *
      * @param genes1 The genes of the first parent organism
      * @param genes2 The genes of the second parent organism
-     * @return       The genes of an offspring from the two parent organisms
+     * @return The genes of an offspring from the two parent organisms
      */
     @Override
     public String produceCross(String genes1, String genes2) {
@@ -82,10 +82,10 @@ public class FavourableWeightedBreedingAlgorithm implements BreedingAlgorithm {
         for (int i = 0; i < genomeLength; i++) {
             if (rand.nextInt(100) < (int) weight * 100) {
                 // Choose the character with the greater ASCII value.
-                result.append((int)chars1[i] >= (int)chars2[i] ? chars1[i] : chars2[i]);
+                result.append((int) chars1[i] >= (int) chars2[i] ? chars1[i] : chars2[i]);
             } else {
                 // Choose the character with the lower ASCII value.
-                result.append((int)chars1[i] >= (int)chars2[i] ? chars2[i] : chars1[i]);
+                result.append((int) chars1[i] >= (int) chars2[i] ? chars2[i] : chars1[i]);
             }
         }
         // TODO: Implement mutation?
