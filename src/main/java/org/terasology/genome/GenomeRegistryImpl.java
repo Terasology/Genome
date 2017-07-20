@@ -42,6 +42,16 @@ public class GenomeRegistryImpl extends BaseComponentSystem implements GenomeReg
     }
 
     /**
+     * Deregister an organism type.
+     *
+     * @param typeId Unique type of organism
+     */
+    @Override
+    public void deregisterType(String typeId) {
+        genomeDefinitionMap.remove(typeId);
+    }
+
+    /**
      * Get the genome definition of a given organism type.
      *
      * @param typeId Type of an organism

@@ -15,6 +15,8 @@
  */
 package org.terasology.genome.breed;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
@@ -22,20 +24,18 @@ public class FavourableWeightedBreedingAlgorithm implements BreedingAlgorithm {
     private int minimumCrossSimilarity;
     private float mutationChance;
     private float weight;
-    private GeneMutator geneMutator;
 
-    public FavourableWeightedBreedingAlgorithm(int minimumCrossSimilarity, float mutationChance, float weight, GeneMutator geneMutator) {
+    public FavourableWeightedBreedingAlgorithm(int minimumCrossSimilarity, float weight) {
         this.minimumCrossSimilarity = minimumCrossSimilarity;
         this.mutationChance = mutationChance;
         this.weight = weight;
-        this.geneMutator = geneMutator;
     }
 
     /**
      * Check whether two organisms with the given genes can breed.
      *
      * @param genes1 The genes of the first organism
-     * @param genes2 The genes of the second organism
+     * @param genes2 T  he genes of the second organism
      * @return Whether the two organisms can breed
      */
     @Override
@@ -80,7 +80,7 @@ public class FavourableWeightedBreedingAlgorithm implements BreedingAlgorithm {
         char[] chars2 = genes2.toCharArray();
 
         for (int i = 0; i < genomeLength; i++) {
-            if (rand.nextInt(100) < (int) weight * 100) {
+            if (rand.nextInt(100) < (int) (weight * 100)) {
                 // Choose the character with the greater ASCII value.
                 result.append((int) chars1[i] >= (int) chars2[i] ? chars1[i] : chars2[i]);
             } else {

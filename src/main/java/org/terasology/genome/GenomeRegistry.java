@@ -28,6 +28,13 @@ public interface GenomeRegistry {
     void registerType(String typeId, GenomeDefinition genomeDefinition);
 
     /**
+     * Deregisters the organism type.
+     *
+     * @param typeId Unique type of organism
+     */
+    void deregisterType(String typeId);
+
+    /**
      * Returns a genome definition for the specified organism type.
      *
      * @param typeId Type of an organism
