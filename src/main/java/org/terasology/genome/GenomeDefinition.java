@@ -22,11 +22,12 @@ import org.terasology.genome.genomeMap.GenomeMap;
  * This class defines common properties of a certain organism type, namely the breeding algorithm and the genome map.
  */
 public class GenomeDefinition {
-    private BreedingAlgorithm breedingAlgorithm;
+    //change this to defaultBreedingAlgorithm
+    private BreedingAlgorithm defaultBreedingAlgorithm;
     private GenomeMap genomeMap;
 
-    public GenomeDefinition(BreedingAlgorithm breedingAlgorithm, GenomeMap genomeMap) {
-        this.breedingAlgorithm = breedingAlgorithm;
+    public GenomeDefinition(BreedingAlgorithm defaultBreedingAlgorithm, GenomeMap genomeMap) {
+        this.defaultBreedingAlgorithm = defaultBreedingAlgorithm;
         this.genomeMap = genomeMap;
     }
 
@@ -35,8 +36,10 @@ public class GenomeDefinition {
      *
      * @return The breeding algorithm used by this organism type
      */
-    public BreedingAlgorithm getBreedingAlgorithm() {
-        return breedingAlgorithm;
+
+    //change this to getDefaultBreedingAlgorithm
+    public BreedingAlgorithm getDefaultBreedingAlgorithm() {
+        return defaultBreedingAlgorithm;
     }
 
     /**

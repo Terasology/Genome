@@ -71,6 +71,8 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
      * @param offspring The offspring
      * @return          Whether the two organisms were bred successfully and the resulting information was applied to the offspring
      */
+
+    //this method will need to be changed so traits are bred according to their own breeding algorithms, if nothing is specified then default can be used
     @Override
     public boolean applyBreeding(EntityRef organism1, EntityRef organism2, EntityRef offspring) {
         GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
@@ -82,7 +84,8 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
 
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
 
-        String resultGenes = genomeDefinition.getBreedingAlgorithm().produceCross(genome1.genes, genome2.genes);
+        //here breed by getting breeding algorithm per gene, otherwise use defaultBreedingAlgorithm
+        String resultGenes = genomeDefinition.getDefaultBreedingAlgorithm().produceCross(genome1.genes, genome2.genes);
         if (resultGenes == null) {
             return false;
         }
@@ -107,7 +110,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             return false;
         }
 
-        return genomeDefinition.getBreedingAlgorithm().canCross(genome1.genes, genome2.genes);
+        return genomeDefinition.getDefaultBreedingAlgorithm().canCross(genome1.genes, genome2.genes);
     }
 
     /**
@@ -131,4 +134,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
 
         return genomeDefinition.getGenomeMap().getProperty(propertyName, genome.genes, type);
     }
+
+    //add a method here getGenomeBreedingAlgorithm. Add in the interface as well
+    //add getPropertyType method too
 }
