@@ -20,7 +20,7 @@ import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.breed.DiploidBreedingAlgorithm;
 import org.terasology.genome.breed.MonoploidBreedingAlgorithm;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class GeneIndexGenomeMap implements GenomeMap {
     //make this private after testing is done
-    public Map<String, GenePropertyDefinition> propertyDefinitionMap = new HashMap<>();
+    public Map<String, GenePropertyDefinition> propertyDefinitionMap = new LinkedHashMap<>();
 
     /**
      * Add a new named property to the genome map.
@@ -40,7 +40,8 @@ public class GeneIndexGenomeMap implements GenomeMap {
      * @param <T> The class used for the property value
      */
 
-    public <T> void addProperty(String propertyName, int[] geneIndices, Class<T> type, BreedingAlgorithm breedingAlgorithm,
+    public <T> void addProperty(String propertyName, int[] geneIndices, Class<T> type,
+                                BreedingAlgorithm breedingAlgorithm,
                                 Function<String, T> geneStringTransformation) {
         propertyDefinitionMap.put(propertyName, new GenePropertyDefinition<T>(geneIndices, type, breedingAlgorithm,
                 geneStringTransformation));
@@ -78,14 +79,14 @@ public class GeneIndexGenomeMap implements GenomeMap {
 
     //add a type field here and maybe a breeding algorithm as well. this can be from getBreedingAlgorithm(String
     // property, String genes) a new method
-    private static final class GenePropertyDefinition<T> {
-        private int[] geneIndices;
-        private BreedingAlgorithm breedingAlgorithm;
-        private Class<T> type;
-        private Function<String, T> transformation;
+    public static final class GenePropertyDefinition<T> {
+        public int[] geneIndices;
+        public BreedingAlgorithm breedingAlgorithm;
+        public Class<T> type;
+        public Function<String, T> transformation;
 
-        private GenePropertyDefinition(int[] geneIndices, Class<T> type, BreedingAlgorithm breedingAlgorithm,
-                                       Function<String, T> transformation) {
+        public GenePropertyDefinition(int[] geneIndices, Class<T> type, BreedingAlgorithm breedingAlgorithm,
+                                      Function<String, T> transformation) {
             this.geneIndices = geneIndices;
             this.type = type;
             this.breedingAlgorithm = breedingAlgorithm;

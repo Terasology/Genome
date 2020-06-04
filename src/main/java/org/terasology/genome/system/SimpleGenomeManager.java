@@ -22,10 +22,19 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.genome.GenomeDefinition;
 import org.terasology.genome.GenomeRegistry;
+import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.component.GenomeComponent;
 import org.terasology.genome.events.OnBreed;
+import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
+import org.terasology.genome.genomeMap.GenomeMap;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * A simple genome manager implementation.
@@ -52,7 +61,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
      *
      * @param organism1 The first organism
      * @param organism2 The second organism
-     * @return          Whether the two organisms can breed
+     * @return Whether the two organisms can breed
      */
     @Override
     public boolean canBreed(EntityRef organism1, EntityRef organism2) {
@@ -69,12 +78,21 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
      * @param organism1 The first organism
      * @param organism2 The second organism
      * @param offspring The offspring
-     * @return          Whether the two organisms were bred successfully and the resulting information was applied to the offspring
+     * @return Whether the two organisms were bred successfully and the resulting information was applied to the
+     *         offspring
      */
 
-    //this method will need to be changed so traits are bred according to their own breeding algorithms, if nothing is specified then default can be used
+    //this method will need to be changed so traits are bred according to their own breeding algorithms, if nothing
+    // is specified then default can be used
     @Override
     public boolean applyBreeding(EntityRef organism1, EntityRef organism2, EntityRef offspring) {
+        int counter = 0;
+        int geneIndex = 0;
+        int geneIndices[];
+        String resultGenes = "";
+
+        BreedingAlgorithm breedingAlgorithm;
+
         GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
         GenomeComponent genome2 = organism2.getComponent(GenomeComponent.class);
 
@@ -85,7 +103,30 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
 
         //here breed by getting breeding algorithm per gene, otherwise use defaultBreedingAlgorithm
-        String resultGenes = genomeDefinition.getDefaultBreedingAlgorithm().produceCross(genome1.genes, genome2.genes);
+        //String resultGenes = genomeDefinition.getDefaultBreedingAlgorithm().produceCross(genome1.genes, genome2
+        //        .genes);
+
+        GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
+        Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.propertyDefinitionMap);
+        ArrayList<GeneIndexGenomeMap.GenePropertyDefinition> genePropertyDefinitions =
+                new ArrayList(propertyDefinitionMap1.values());
+
+        while (geneIndex != genome1.genes.length()) {
+            geneIndices = genePropertyDefinitions.get(counter).geneIndices;
+            breedingAlgorithm = genePropertyDefinitions.get(counter++).breedingAlgorithm;
+            if (geneIndex + geneIndices.length < genome1.genes.length()) {
+                resultGenes += "" + breedingAlgorithm.produceCross(genome1.genes.substring(geneIndex,
+                        geneIndex + geneIndices.length), genome2.genes.substring(geneIndex,
+                        geneIndex + geneIndices.length));
+            } else {
+                System.out.println(resultGenes);
+                resultGenes += "" + breedingAlgorithm.produceCross(genome1.genes.substring(geneIndex),
+                        genome2.genes.substring(geneIndex));
+            }
+            geneIndex += geneIndices.length;
+        }
+
+
         if (resultGenes == null) {
             return false;
         }
@@ -116,9 +157,9 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
     /**
      * Returns the named property for that organism, as defined by GenomeMap its genome was registered with.
      *
-     * @param organism     The organism whose property is to be fetched
+     * @param organism The organism whose property is to be fetched
      * @param propertyName The name of the property to be fetched
-     * @return             The property of the organism with the given name
+     * @return The property of the organism with the given name
      */
     @Override
     public <T> T getGenomeProperty(EntityRef organism, String propertyName, Class<T> type) {

@@ -33,6 +33,7 @@ import org.terasology.registry.In;
 import org.terasology.world.WorldProvider;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import javax.annotation.Nullable;
 
 class GeneIndexGenomeMapTest {
@@ -50,8 +51,8 @@ class GeneIndexGenomeMapTest {
         GeneMutator geneMutator = new VocabularyGeneMutator("ABCDEFGHIJK");
         BreedingAlgorithm breedingAlgorithm = new MonoploidBreedingAlgorithm(0, 0.05f, geneMutator);
         GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
-        int geneIndices[]={0};
-        genomeMap.addProperty("filling", geneIndices, Integer.class,breedingAlgorithm,
+        int geneIndices[] = {0};
+        genomeMap.addProperty("filling", geneIndices, Integer.class, breedingAlgorithm,
                 new Function<String, Integer>() {
                     @Nullable
                     @Override
@@ -62,8 +63,8 @@ class GeneIndexGenomeMapTest {
 
         GenomeDefinition genomeDefinition = new GenomeDefinition(breedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
-        assertEquals(genomeMap1.propertyDefinitionMap.toString(),genomeMap.propertyDefinitionMap.toString());
+        assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
         //System.out.println(genomeMap1.propertyDefinitionMap);
-        System.out.println(genomeMap1.getProperty("filling","Aa",Integer.class));
+        System.out.println(genomeMap1.getProperty("filling", "Aa", Integer.class));
     }
 }
