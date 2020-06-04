@@ -27,7 +27,6 @@ import java.util.Map;
  * An implementation of GenomeMap.
  */
 public class GeneIndexGenomeMap implements GenomeMap {
-    //make this private after testing is done
     public Map<String, GenePropertyDefinition> propertyDefinitionMap = new LinkedHashMap<>();
 
     /**
@@ -36,6 +35,7 @@ public class GeneIndexGenomeMap implements GenomeMap {
      * @param propertyName The name of the property to be added
      * @param geneIndices The indices of the genes which the property depends
      * @param type The type of the property
+     * @param breedingAlgorithm The breeding algorithm of the property
      * @param geneStringTransformation A function to transform the gene into a property value
      * @param <T> The class used for the property value
      */
@@ -47,8 +47,14 @@ public class GeneIndexGenomeMap implements GenomeMap {
                 geneStringTransformation));
     }
 
-    public BreedingAlgorithm getPropertyBreedingAlgorithm(String property) {
-        return propertyDefinitionMap.get(property).breedingAlgorithm;
+    /**
+     * Get the breeding algorithm of the specified property.
+     *
+     * @param propertyName The name of the property to be added
+     */
+
+    public BreedingAlgorithm getPropertyBreedingAlgorithm(String propertyName) {
+        return propertyDefinitionMap.get(propertyName).breedingAlgorithm;
     }
 
 
@@ -77,8 +83,6 @@ public class GeneIndexGenomeMap implements GenomeMap {
         return (T) definition.transformation.apply(genesForProperty.toString());
     }
 
-    //add a type field here and maybe a breeding algorithm as well. this can be from getBreedingAlgorithm(String
-    // property, String genes) a new method
     public static final class GenePropertyDefinition<T> {
         public int[] geneIndices;
         public BreedingAlgorithm breedingAlgorithm;

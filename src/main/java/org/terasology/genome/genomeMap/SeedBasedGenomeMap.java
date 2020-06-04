@@ -28,7 +28,6 @@ import org.terasology.world.WorldProvider;
  */
 
 
-//have to still change breeding algo stuff here
 public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
     private int mapSeed;
 
@@ -44,6 +43,7 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
      * @param maxGeneIndex The maximum index of a gene that can affect the property
      * @param codeLength The maximum length of a gene sequence that can affect the property
      * @param type The type of the property
+     * @param breedingAlgorithm The breeding algorithm of the property
      * @param geneStringTransformation A function that transforms a gene into a property value
      * @param <T> The class used for the property
      */
@@ -69,6 +69,7 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
      * @param propertyName The name of the property
      * @param codeLength The maximum length of a gene sequence that can affect the property
      * @param type The type of the property
+     * @param breedingAlgorithm The breeding algorithm of the property
      * @param geneStringTransformation A function that transforms a gene into a property value
      * @param <T> The class used for the property
      */

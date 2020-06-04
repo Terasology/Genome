@@ -82,15 +82,12 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
      *         offspring
      */
 
-    //this method will need to be changed so traits are bred according to their own breeding algorithms, if nothing
-    // is specified then default can be used
     @Override
     public boolean applyBreeding(EntityRef organism1, EntityRef organism2, EntityRef offspring) {
-        int counter = 0;
+        int geneCounter = 0;
         int geneIndex = 0;
         int geneIndices[];
         String resultGenes = "";
-
         BreedingAlgorithm breedingAlgorithm;
 
         GenomeComponent genome1 = organism1.getComponent(GenomeComponent.class);
@@ -101,19 +98,15 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         }
 
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
-
-        //here breed by getting breeding algorithm per gene, otherwise use defaultBreedingAlgorithm
-        //String resultGenes = genomeDefinition.getDefaultBreedingAlgorithm().produceCross(genome1.genes, genome2
-        //        .genes);
-
+        // here we may need to add something incase SeedBasedGenomeMap is used for the definition
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
         Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.propertyDefinitionMap);
         ArrayList<GeneIndexGenomeMap.GenePropertyDefinition> genePropertyDefinitions =
                 new ArrayList(propertyDefinitionMap1.values());
 
         while (geneIndex != genome1.genes.length()) {
-            geneIndices = genePropertyDefinitions.get(counter).geneIndices;
-            breedingAlgorithm = genePropertyDefinitions.get(counter++).breedingAlgorithm;
+            geneIndices = genePropertyDefinitions.get(geneCounter).geneIndices;
+            breedingAlgorithm = genePropertyDefinitions.get(geneCounter++).breedingAlgorithm;
             if (geneIndex + geneIndices.length < genome1.genes.length()) {
                 resultGenes += "" + breedingAlgorithm.produceCross(genome1.genes.substring(geneIndex,
                         geneIndex + geneIndices.length), genome2.genes.substring(geneIndex,
@@ -125,7 +118,6 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             }
             geneIndex += geneIndices.length;
         }
-
 
         if (resultGenes == null) {
             return false;
@@ -175,7 +167,4 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
 
         return genomeDefinition.getGenomeMap().getProperty(propertyName, genome.genes, type);
     }
-
-    //add a method here getGenomeBreedingAlgorithm. Add in the interface as well
-    //add getPropertyType method too
 }
