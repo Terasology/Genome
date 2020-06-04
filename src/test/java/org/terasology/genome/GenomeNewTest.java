@@ -16,6 +16,8 @@
 
 package org.terasology.genome;
 
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Function;
@@ -40,6 +42,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * A test to check working of multiple traits with different breeding algorithms. Addition of multiple breeding
+ * algorithms was based on the structure of these tests.
+ */
 class GenomeNewTest {
     @In
     WorldProvider worldProvider;
@@ -47,17 +53,23 @@ class GenomeNewTest {
     @In
     GenomeRegistry genomeRegistry;
 
+    GeneMutator geneMutator;
+    BreedingAlgorithm defaultBreedingAlgorithm;
+    float mutationChance;
+
+    @BeforeEach
+    public void setUp() {
+        //A=5, F=10, K=15
+        geneMutator = new VocabularyGeneMutator("ABCDEFGHIJK");
+        mutationChance = 0.05f;
+        defaultBreedingAlgorithm = new MonoploidBreedingAlgorithm(0, mutationChance, geneMutator);
+    }
+
     @Test
     void testContinuousTrait() {
-        int genomeLength = 1;
-        float mutationChance = 0.05f;
-        //A=5, F=10, K=15
-        GeneMutator geneMutator = new VocabularyGeneMutator("ABCDEFGHIJK");
-        BreedingAlgorithm breedingAlgorithm = new MonoploidBreedingAlgorithm(0, mutationChance, geneMutator);
         GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
         int geneIndices[] = new int[]{0};
-        //change the next line to include the type of trait
-        genomeMap.addProperty("filling", geneIndices, Integer.class, breedingAlgorithm,
+        genomeMap.addProperty("filling", geneIndices, Integer.class, defaultBreedingAlgorithm,
                 new Function<String, Integer>() {
                     @Nullable
                     @Override
@@ -66,30 +78,17 @@ class GenomeNewTest {
                     }
                 });
 
-        //change this to defaultBreedingAlgorithm
-        GenomeDefinition genomeDefinition = new GenomeDefinition(breedingAlgorithm, genomeMap);
+        GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
         assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
-        //System.out.println(genomeMap1.propertyDefinitionMap);
         System.out.println(genomeMap1.getProperty("filling", "Aa", Integer.class));
-        //also need to change everywhere to default breeding algorithm because the breeding algorithm will be defined
-        // per trait
     }
 
     @Test
     void testDiscreteTrait() {
-        int genomeLength = 1;
-        String g1 = "AF";
-        String g2 = "TA";
-        float mutationChance = 0.05f;
-        //A=5, F=10, K=15
-        GeneMutator geneMutator = new VocabularyGeneMutator("ABCDEFGHIJK");
-        BreedingAlgorithm breedingAlgorithm = new MonoploidBreedingAlgorithm(0, mutationChance, geneMutator);
         GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
         int geneIndices[] = new int[]{0, 1};
-        String propertyType = "discrete";
-        //change the next line to include the type of trait
-        genomeMap.addProperty("height", geneIndices, Integer.class, breedingAlgorithm,
+        genomeMap.addProperty("height", geneIndices, Integer.class, defaultBreedingAlgorithm,
                 new Function<String, Integer>() {
                     @Nullable
                     @Override
@@ -98,19 +97,37 @@ class GenomeNewTest {
                     }
                 });
 
-        //change this to defaultBreedingAlgorithm
-        GenomeDefinition genomeDefinition = new GenomeDefinition(breedingAlgorithm, genomeMap);
+        GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
         assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
         assertEquals(genomeMap1.getProperty("height", "TT", Integer.class), 1);
         assertEquals(genomeMap1.getProperty("height", "tt", Integer.class), 0);
-        //System.out.println(genomeMap1.propertyDefinitionMap);
-        System.out.println(genomeMap1.getProperty("height", "tt", Integer.class));
-        //System.out.println(genomeDefinition.getDefaultBreedingAlgorithm().produceCross(g1, g2));
+        System.out.println(genomeMap1.getProperty("height", "Tt", Integer.class));
+    }
 
+    @Test
+    void testBreeding() {
         int counter = 0;
         String resultGenes = "";
         int geneIndex = 0;
+        BreedingAlgorithm breedingAlgorithm = defaultBreedingAlgorithm;
+
+        String g1 = "TT";
+        String g2 = "tt";
+        GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
+        int geneIndices[] = new int[]{0, 1};
+        String propertyType = "discrete";
+        genomeMap.addProperty("height", geneIndices, Integer.class, defaultBreedingAlgorithm,
+                new Function<String, Integer>() {
+                    @Nullable
+                    @Override
+                    public Integer apply(@Nullable String input) {
+                        return (Character.isUpperCase(input.charAt(0)) ? 1 : 0);
+                    }
+                });
+
+        GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
+        GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
 
         Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.propertyDefinitionMap);
         ArrayList<GeneIndexGenomeMap.GenePropertyDefinition> genePropertyDefinitions =
@@ -128,7 +145,6 @@ class GenomeNewTest {
             }
             geneIndex += geneIndices.length;
         }
-
         System.out.println(resultGenes);
     }
 }

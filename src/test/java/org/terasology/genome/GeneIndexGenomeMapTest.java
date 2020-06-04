@@ -16,19 +16,15 @@
 
 package org.terasology.genome;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Function;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.genome.GenomeDefinition;
-import org.terasology.genome.GenomeRegistry;
 import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.breed.MonoploidBreedingAlgorithm;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.genome.breed.mutator.VocabularyGeneMutator;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
-import org.terasology.genome.genomeMap.SeedBasedGenomeMap;
 import org.terasology.registry.In;
 import org.terasology.world.WorldProvider;
 
@@ -36,6 +32,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import javax.annotation.Nullable;
 
+/**
+ * Initial test setup based on working of Genomes before trait specific breeding algorithms were introduced
+ * this test is now obsolete/serves no purpose
+ */
 class GeneIndexGenomeMapTest {
     @In
     WorldProvider worldProvider;
@@ -64,7 +64,6 @@ class GeneIndexGenomeMapTest {
         GenomeDefinition genomeDefinition = new GenomeDefinition(breedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
         assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
-        //System.out.println(genomeMap1.propertyDefinitionMap);
-        System.out.println(genomeMap1.getProperty("filling", "Aa", Integer.class));
+        assertEquals(genomeMap1.getProperty("filling", "Aa", Integer.class),5);
     }
 }

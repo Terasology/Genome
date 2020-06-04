@@ -39,7 +39,6 @@ public class GeneIndexGenomeMap implements GenomeMap {
      * @param geneStringTransformation A function to transform the gene into a property value
      * @param <T> The class used for the property value
      */
-
     public <T> void addProperty(String propertyName, int[] geneIndices, Class<T> type,
                                 BreedingAlgorithm breedingAlgorithm,
                                 Function<String, T> geneStringTransformation) {
@@ -52,7 +51,6 @@ public class GeneIndexGenomeMap implements GenomeMap {
      *
      * @param propertyName The name of the property to be added
      */
-
     public BreedingAlgorithm getPropertyBreedingAlgorithm(String propertyName) {
         return propertyDefinitionMap.get(propertyName).breedingAlgorithm;
     }
