@@ -83,7 +83,7 @@ class GenomeNewTest {
         GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
         assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
-        assertEquals(genomeMap1.getProperty("filling","Aa",Integer.class),5);
+        assertEquals(genomeMap1.getProperty("filling", "Aa", Integer.class), 5);
     }
 
     @Test
@@ -104,7 +104,7 @@ class GenomeNewTest {
         assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
         assertEquals(genomeMap1.getProperty("height", "TT", Integer.class), 1);
         assertEquals(genomeMap1.getProperty("height", "tt", Integer.class), 0);
-        assertEquals(genomeMap1.getProperty("height", "Tt", Integer.class),1);
+        assertEquals(genomeMap1.getProperty("height", "Tt", Integer.class), 1);
     }
 
     @Test
@@ -114,17 +114,29 @@ class GenomeNewTest {
         int geneIndex = 0;
         BreedingAlgorithm breedingAlgorithm = defaultBreedingAlgorithm;
 
-        String g1 = "TT";
-        String g2 = "tt";
+        String g1 = "TTAF";
+        String g2 = "ttKK";
         GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
-        int geneIndices[] = new int[]{0, 1};
+        int geneDepends[] = new int[]{0, 1};
+        int geneIndices[];
+
         String propertyType = "discrete";
-        genomeMap.addProperty("height", geneIndices, Integer.class, defaultBreedingAlgorithm,
+        genomeMap.addProperty("height", geneDepends, Integer.class, defaultBreedingAlgorithm,
                 new Function<String, Integer>() {
                     @Nullable
                     @Override
                     public Integer apply(@Nullable String input) {
                         return (Character.isUpperCase(input.charAt(0)) ? 1 : 0);
+                    }
+                });
+
+        geneDepends = new int[]{2, 3};
+        genomeMap.addProperty("filling", geneDepends, Integer.class, defaultBreedingAlgorithm,
+                new Function<String, Integer>() {
+                    @Nullable
+                    @Override
+                    public Integer apply(@Nullable String input) {
+                        return (input.charAt(0) - 'A' + 5);
                     }
                 });
 
@@ -142,11 +154,10 @@ class GenomeNewTest {
                         geneIndex + geneIndices.length), g2.substring(geneIndex,
                         geneIndex + geneIndices.length));
             } else {
-                System.out.println(resultGenes);
                 resultGenes += "" + breedingAlgorithm.produceCross(g1.substring(geneIndex), g2.substring(geneIndex));
             }
             geneIndex += geneIndices.length;
         }
-        assertNotEquals(resultGenes,"");
+        assertNotEquals(resultGenes, "");
     }
 }
