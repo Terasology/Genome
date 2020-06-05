@@ -34,7 +34,9 @@ import org.terasology.genome.genomeMap.SeedBasedGenomeMap;
 import org.terasology.registry.In;
 import org.terasology.world.WorldProvider;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -81,7 +83,7 @@ class GenomeNewTest {
         GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
         assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
-        System.out.println(genomeMap1.getProperty("filling", "Aa", Integer.class));
+        assertEquals(genomeMap1.getProperty("filling","Aa",Integer.class),5);
     }
 
     @Test
@@ -102,7 +104,7 @@ class GenomeNewTest {
         assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
         assertEquals(genomeMap1.getProperty("height", "TT", Integer.class), 1);
         assertEquals(genomeMap1.getProperty("height", "tt", Integer.class), 0);
-        System.out.println(genomeMap1.getProperty("height", "Tt", Integer.class));
+        assertEquals(genomeMap1.getProperty("height", "Tt", Integer.class),1);
     }
 
     @Test
@@ -145,6 +147,6 @@ class GenomeNewTest {
             }
             geneIndex += geneIndices.length;
         }
-        System.out.println(resultGenes);
+        assertNotEquals(resultGenes,"");
     }
 }

@@ -112,7 +112,6 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
                         geneIndex + geneIndices.length), genome2.genes.substring(geneIndex,
                         geneIndex + geneIndices.length));
             } else {
-                System.out.println(resultGenes);
                 resultGenes += "" + breedingAlgorithm.produceCross(genome1.genes.substring(geneIndex),
                         genome2.genes.substring(geneIndex));
             }

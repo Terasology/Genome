@@ -28,9 +28,10 @@ import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
 import org.terasology.registry.In;
 import org.terasology.world.WorldProvider;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import javax.annotation.Nullable;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * Initial test setup based on working of Genomes before trait specific breeding algorithms were introduced
