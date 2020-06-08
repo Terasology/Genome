@@ -15,6 +15,8 @@
  */
 package org.terasology.genome.breed;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
@@ -25,6 +27,8 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
     private int minimumCrossSimilarity;
     private float mutationChance;
     private GeneMutator geneMutator;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MonoploidBreedingAlgorithm.class);
 
     public MonoploidBreedingAlgorithm(int minimumCrossSimilarity, float mutationChance, GeneMutator geneMutator) {
         this.minimumCrossSimilarity = minimumCrossSimilarity;
@@ -37,11 +41,13 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
      *
      * @param genes1 The genes of the first organism
      * @param genes2 The genes of the second organism
-     * @return       Whether the two organisms can breed
+     * @return Whether the two organisms can breed
      */
     @Override
     public boolean canCross(String genes1, String genes2) {
-        validateGenes(genes1, genes2);
+        if (!(validateGenes(genes1, genes2))) {
+            return false;
+        }
 
         int genomeLength = genes1.length();
 
@@ -63,7 +69,7 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
      *
      * @param genes1 The genes of the first parent organism
      * @param genes2 The genes of the second parent organism
-     * @return       The genes of an offspring from the two parent organisms
+     * @return The genes of an offspring from the two parent organisms
      */
     @Override
     public String produceCross(String genes1, String genes2) {
@@ -93,9 +99,11 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
         return result.toString();
     }
 
-    private void validateGenes(String genes1, String genes2) {
+    private boolean validateGenes(String genes1, String genes2) {
         if (genes1 == null || genes2 == null || genes1.length() != genes2.length()) {
-            throw new IllegalArgumentException("Genomes not defined or of incorrect length");
+            LOGGER.error("Genomes not defined or of incorrect length");
+            return false;
         }
+        return true;
     }
 }

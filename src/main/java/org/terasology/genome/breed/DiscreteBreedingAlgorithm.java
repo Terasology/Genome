@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.terasology.genome.breed;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
@@ -26,6 +28,8 @@ import java.util.Arrays;
 public class DiscreteBreedingAlgorithm implements BreedingAlgorithm {
     private float mutationChance;
     private GeneMutator geneMutator;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscreteBreedingAlgorithm.class);
 
     public DiscreteBreedingAlgorithm(float mutationChance, GeneMutator geneMutator) {
         this.mutationChance = mutationChance;
@@ -41,9 +45,11 @@ public class DiscreteBreedingAlgorithm implements BreedingAlgorithm {
      */
     @Override
     public boolean canCross(String genes1, String genes2) {
-        validateGenes(genes1, genes2);
+        if (!(validateGenes(genes1, genes2))) {
+            return false;
+        }
 
-        return (genes1.compareToIgnoreCase(genes2) == 0 ? true : false);
+        return (genes1.compareToIgnoreCase(genes2)) == 0;
     }
 
     /**
@@ -98,9 +104,11 @@ public class DiscreteBreedingAlgorithm implements BreedingAlgorithm {
         return result.toString();
     }
 
-    private void validateGenes(String genes1, String genes2) {
+    private boolean validateGenes(String genes1, String genes2) {
         if (genes1 == null || genes2 == null || genes1.length() != genes2.length()) {
-            throw new IllegalArgumentException("Genomes not defined or of incorrect length");
+            LOGGER.error("Genomes not defined or of incorrect length");
+            return false;
         }
+        return true;
     }
 }
