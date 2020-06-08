@@ -39,7 +39,7 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
      * Add a new seed based (pseudo-random) property.
      *
      * @param propertyName The name of the property
-     * @param minGeneIndex The minimum index of a which can affect the property
+     * @param minGeneIndex The minimum index of a gene that can affect the property
      * @param maxGeneIndex The maximum index of a gene that can affect the property
      * @param codeLength The maximum length of a gene sequence that can affect the property
      * @param type The type of the property
