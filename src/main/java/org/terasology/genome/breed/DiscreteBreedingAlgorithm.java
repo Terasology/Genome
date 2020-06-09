@@ -101,6 +101,10 @@ public class DiscreteBreedingAlgorithm implements BreedingAlgorithm {
             result.replace(geneIndex, geneIndex + 1, "" + gene);
         }
 
+        resultGenes = result.toString().toCharArray();
+        Arrays.sort(resultGenes);
+        result = new StringBuilder(new String(resultGenes));
+
         return result.toString();
     }
 
