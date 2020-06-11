@@ -100,7 +100,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
         // here we may need to add something incase SeedBasedGenomeMap is used for the definition
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
-        Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.propertyDefinitionMap);
+        Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.getPropertyDefinitionMap());
         ArrayList<GeneIndexGenomeMap.GenePropertyDefinition> genePropertyDefinitions =
                 new ArrayList(propertyDefinitionMap1.values());
 

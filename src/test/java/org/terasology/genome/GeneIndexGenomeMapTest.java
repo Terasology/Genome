@@ -38,11 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * this test is now obsolete/serves no purpose
  */
 class GeneIndexGenomeMapTest {
-    @In
-    WorldProvider worldProvider;
-
-    @In
-    GenomeRegistry genomeRegistry;
 
     @Test
     void testMethod() {
@@ -64,7 +59,7 @@ class GeneIndexGenomeMapTest {
 
         GenomeDefinition genomeDefinition = new GenomeDefinition(breedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
-        assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
+        assertEquals(genomeMap1.getPropertyDefinitionMap().toString(), genomeMap.getPropertyDefinitionMap().toString());
         assertEquals(genomeMap1.getProperty("filling", "Aa", Integer.class),5);
     }
 }

@@ -49,11 +49,6 @@ import java.util.Map;
  * algorithms was based on the structure of these tests.
  */
 class GenomeNewTest {
-    @In
-    WorldProvider worldProvider;
-
-    @In
-    GenomeRegistry genomeRegistry;
 
     GeneMutator geneMutator;
     BreedingAlgorithm defaultBreedingAlgorithm;
@@ -82,7 +77,7 @@ class GenomeNewTest {
 
         GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
-        assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
+        assertEquals(genomeMap1.getPropertyDefinitionMap().toString(), genomeMap.getPropertyDefinitionMap().toString());
         assertEquals(genomeMap1.getProperty("filling", "Aa", Integer.class), 5);
     }
 
@@ -101,7 +96,7 @@ class GenomeNewTest {
 
         GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
-        assertEquals(genomeMap1.propertyDefinitionMap.toString(), genomeMap.propertyDefinitionMap.toString());
+        assertEquals(genomeMap1.getPropertyDefinitionMap().toString(), genomeMap.getPropertyDefinitionMap().toString());
         assertEquals(genomeMap1.getProperty("height", "TT", Integer.class), 1);
         assertEquals(genomeMap1.getProperty("height", "tt", Integer.class), 0);
         assertEquals(genomeMap1.getProperty("height", "Tt", Integer.class), 1);
@@ -143,7 +138,7 @@ class GenomeNewTest {
         GenomeDefinition genomeDefinition = new GenomeDefinition(defaultBreedingAlgorithm, genomeMap);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
 
-        Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.propertyDefinitionMap);
+        Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.getPropertyDefinitionMap());
         ArrayList<GeneIndexGenomeMap.GenePropertyDefinition> genePropertyDefinitions =
                 new ArrayList(propertyDefinitionMap1.values());
         while (geneIndex != g1.length()) {
