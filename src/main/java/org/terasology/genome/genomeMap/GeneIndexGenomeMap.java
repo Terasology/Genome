@@ -76,7 +76,7 @@ public class GeneIndexGenomeMap implements GenomeMap {
      *
      * @return The property definition map
      */
-    public Map<String, GenePropertyDefinition> getPropertyDefinitionMap() {
+    public final Map<String, GenePropertyDefinition> getPropertyDefinitionMap() {
         return propertyDefinitionMap;
     }
 
