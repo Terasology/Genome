@@ -63,20 +63,24 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
         addProperty(propertyName, selectedGeneIndices, type, breedingAlgorithm, geneStringTransformation);
     }
 
-    /**
-     * Add a new seed based (pseudo-random) property.
-     *
-     * @param propertyName The name of the property
-     * @param codeLength The maximum length of a gene sequence that can affect the property
-     * @param type The type of the property
-     * @param breedingAlgorithm The breeding algorithm of the property
-     * @param geneStringTransformation A function that transforms a gene into a property value
-     * @param <T> The class used for the property
-     */
-    public <T> void addSeedBasedProperty(String propertyName, int genomeLength, int codeLength, Class<T> type,
-                                         BreedingAlgorithm breedingAlgorithm,
-                                         Function<String, T> geneStringTransformation) {
-        addSeedBasedProperty(propertyName, 0, genomeLength, codeLength, type, breedingAlgorithm,
-                geneStringTransformation);
+    public <T> void addSeedBasedProperty(String propertyName, int minGeneIndex, int maxGeneIndex, int codeLength,
+                                         Class<T> type, Function<String, T> geneStringTransformation) {
+        addSeedBasedProperty(propertyName,minGeneIndex,maxGeneIndex,codeLength,type,null,geneStringTransformation);
     }
-}
+        /**
+         * Add a new seed based (pseudo-random) property.
+         *
+         * @param propertyName The name of the property
+         * @param codeLength The maximum length of a gene sequence that can affect the property
+         * @param type The type of the property
+         * @param breedingAlgorithm The breeding algorithm of the property
+         * @param geneStringTransformation A function that transforms a gene into a property value
+         * @param <T> The class used for the property
+         */
+        public <T > void addSeedBasedProperty (String propertyName,int genomeLength, int codeLength, Class<T > type,
+                BreedingAlgorithm breedingAlgorithm,
+                Function < String, T > geneStringTransformation){
+            addSeedBasedProperty(propertyName, 0, genomeLength, codeLength, type, breedingAlgorithm,
+                    geneStringTransformation);
+        }
+    }
