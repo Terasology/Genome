@@ -4,13 +4,18 @@
 package org.terasology.genome.util;
 
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.systems.BaseComponentSystem;
+import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.genome.component.GenomeComponent;
 import org.terasology.logic.characters.CharacterHeldItemComponent;
 import org.terasology.logic.console.commandSystem.annotations.Command;
 import org.terasology.logic.console.commandSystem.annotations.Sender;
 import org.terasology.network.ClientComponent;
+import org.terasology.registry.Share;
 
-public class GenomeCommands {
+@RegisterSystem
+@Share(GenomeCommands.class)
+public class GenomeCommands extends BaseComponentSystem {
     @Command(shortDescription = "Prints genome of held item if possible.")
     public String heldGenomeCheck(@Sender EntityRef client) {
         EntityRef character = client.getComponent(ClientComponent.class).character;
