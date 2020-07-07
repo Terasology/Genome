@@ -46,6 +46,11 @@ public class GeneIndexGenomeMap implements GenomeMap {
                 geneStringTransformation));
     }
 
+    public <T> void addProperty(String propertyName, int[] geneIndices, Class<T> type,
+                                Function<String, T> geneStringTransformation) {
+        addProperty(propertyName, geneIndices, type, geneStringTransformation);
+    }
+
     /**
      * Get the breeding algorithm of the specified property.
      *
