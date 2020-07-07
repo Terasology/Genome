@@ -48,7 +48,7 @@ public class GeneIndexGenomeMap implements GenomeMap {
 
     public <T> void addProperty(String propertyName, int[] geneIndices, Class<T> type,
                                 Function<String, T> geneStringTransformation) {
-        addProperty(propertyName, geneIndices, type, geneStringTransformation);
+        addProperty(propertyName, geneIndices, type, null,geneStringTransformation);
     }
 
     /**
