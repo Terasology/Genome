@@ -63,6 +63,12 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
         addProperty(propertyName, selectedGeneIndices, type, breedingAlgorithm, geneStringTransformation);
     }
 
+    public <T> void addSeedBasedProperty(String propertyName, int minGeneIndex, int maxGeneIndex, int codeLength,
+                                         Class<T> type, Function<String, T> geneStringTransformation) {
+        addSeedBasedProperty(propertyName, minGeneIndex, maxGeneIndex, codeLength, type, null,
+                geneStringTransformation);
+    }
+
     /**
      * Add a new seed based (pseudo-random) property.
      *
@@ -77,6 +83,12 @@ public class SeedBasedGenomeMap extends GeneIndexGenomeMap {
                                          BreedingAlgorithm breedingAlgorithm,
                                          Function<String, T> geneStringTransformation) {
         addSeedBasedProperty(propertyName, 0, genomeLength, codeLength, type, breedingAlgorithm,
+                geneStringTransformation);
+    }
+
+    public <T> void addSeedBasedProperty(String propertyName, int genomeLength, int codeLength, Class<T> type,
+                                         Function<String, T> geneStringTransformation) {
+        addSeedBasedProperty(propertyName, 0, genomeLength, codeLength, type, null,
                 geneStringTransformation);
     }
 }

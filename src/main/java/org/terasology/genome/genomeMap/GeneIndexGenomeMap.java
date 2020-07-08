@@ -46,6 +46,11 @@ public class GeneIndexGenomeMap implements GenomeMap {
                 geneStringTransformation));
     }
 
+    public <T> void addProperty(String propertyName, int[] geneIndices, Class<T> type,
+                                Function<String, T> geneStringTransformation) {
+        addProperty(propertyName, geneIndices, type, null,geneStringTransformation);
+    }
+
     /**
      * Get the value of a named property for the specified genes of an organism.
      *

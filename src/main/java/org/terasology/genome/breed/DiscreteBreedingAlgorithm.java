@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 MovingBlocks
+ * Copyright 2020 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,18 @@ import org.slf4j.LoggerFactory;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
+import java.util.Arrays;
+
 /**
- * A breeding algorithm that produces a monoploid (haploid) cross.
+ * A breeding algorithm that produces a diploid cross for Discrete traits with a Punnet Square.
  */
-public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
-    private int minimumCrossSimilarity;
+public class DiscreteBreedingAlgorithm implements BreedingAlgorithm {
     private float mutationChance;
     private GeneMutator geneMutator;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MonoploidBreedingAlgorithm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscreteBreedingAlgorithm.class);
 
-    public MonoploidBreedingAlgorithm(int minimumCrossSimilarity, float mutationChance, GeneMutator geneMutator) {
-        this.minimumCrossSimilarity = minimumCrossSimilarity;
+    public DiscreteBreedingAlgorithm(float mutationChance, GeneMutator geneMutator) {
         this.mutationChance = mutationChance;
         this.geneMutator = geneMutator;
     }
@@ -49,19 +49,7 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
             return false;
         }
 
-        int genomeLength = genes1.length();
-
-        int sameGenesCount = 0;
-        char[] chars1 = genes1.toCharArray();
-        char[] chars2 = genes2.toCharArray();
-
-        for (int i = 0; i < genomeLength; i++) {
-            if (chars1[i] == chars2[i]) {
-                sameGenesCount++;
-            }
-        }
-
-        return sameGenesCount >= minimumCrossSimilarity;
+        return (genes1.compareToIgnoreCase(genes2)) == 0;
     }
 
     /**
@@ -78,6 +66,7 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
         }
 
         int genomeLength = genes1.length();
+        int punnetCounter = 0;
 
         FastRandom rand = new FastRandom();
 
@@ -85,16 +74,36 @@ public class MonoploidBreedingAlgorithm implements BreedingAlgorithm {
 
         char[] chars1 = genes1.toCharArray();
         char[] chars2 = genes2.toCharArray();
+        char[] resultGenes;
+
+        String[] punnetSquare = new String[4];
+        String alleles = "";
+        String resultant;
 
         for (int i = 0; i < genomeLength; i++) {
-            result.append(rand.nextBoolean() ? chars1[i] : chars2[i]);
+            alleles = "" + chars1[i];
+            for (int j = 0; j < genomeLength; j++) {
+                alleles = alleles + "" + chars2[j];
+                punnetSquare[punnetCounter++] = alleles;
+                alleles = "" + alleles.charAt(0);
+            }
         }
+
+        resultGenes = punnetSquare[rand.nextInt(3)].toCharArray();
+        Arrays.sort(resultGenes);
+        resultant = new String(resultGenes);
+
+        result.append(resultant);
 
         if (mutationChance >= rand.nextFloat()) {
             int geneIndex = rand.nextInt(genomeLength);
             char gene = geneMutator.mutateGene(rand.nextFloat(), geneIndex, result.charAt(geneIndex));
             result.replace(geneIndex, geneIndex + 1, "" + gene);
         }
+
+        resultGenes = result.toString().toCharArray();
+        Arrays.sort(resultGenes);
+        result = new StringBuilder(new String(resultGenes));
 
         return result.toString();
     }

@@ -15,6 +15,8 @@
  */
 package org.terasology.genome.breed;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.utilities.random.FastRandom;
 
@@ -25,6 +27,8 @@ public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
     private BreedingRule breedingRule;
     private float mutationChance;
     private GeneMutator geneMutator;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiploidBreedingAlgorithm.class);
 
     public DiploidBreedingAlgorithm(BreedingRule breedingRule, float mutationChance, GeneMutator geneMutator) {
         this.breedingRule = breedingRule;
@@ -37,11 +41,13 @@ public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
      *
      * @param genes1 The genes of the first organism
      * @param genes2 The genes of the second organism
-     * @return       Whether the two organisms can breed
+     * @return Whether the two organisms can breed
      */
     @Override
     public boolean canCross(String genes1, String genes2) {
-        validateGenes(genes1, genes2);
+        if (!(validateGenes(genes1, genes2))) {
+            return false;
+        }
 
         return breedingRule.canBreed(genes1, genes2);
     }
@@ -51,7 +57,7 @@ public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
      *
      * @param genes1 The genes of the first parent organism
      * @param genes2 The genes of the second parent organism
-     * @return       The genes of an offspring from the two parent organisms
+     * @return The genes of an offspring from the two parent organisms
      */
     @Override
     public String produceCross(String genes1, String genes2) {
@@ -83,9 +89,11 @@ public class DiploidBreedingAlgorithm implements BreedingAlgorithm {
         return null;
     }
 
-    private void validateGenes(String genes1, String genes2) {
-        if (genes1 == null || genes2 == null || genes1.length() != genes2.length() || (genes1.length() % 2) != 0) {
-            throw new IllegalArgumentException("Genomes not defined or of incorrect length");
+    private boolean validateGenes(String genes1, String genes2) {
+        if (genes1 == null || genes2 == null || genes1.length() != genes2.length()) {
+            LOGGER.error("Genomes not defined or of incorrect length");
+            return false;
         }
+        return true;
     }
 }
