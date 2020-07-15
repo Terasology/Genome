@@ -27,6 +27,7 @@ import org.terasology.genome.component.GenomeComponent;
 import org.terasology.genome.events.OnBreed;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
 import org.terasology.genome.genomeMap.GenomeMap;
+import org.terasology.registry.CoreRegistry;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
 
@@ -97,14 +98,14 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             return false;
         }
 
-        GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
-        // here we may need to add something incase SeedBasedGenomeMap is used for the definition
+
+        GenomeDefinition genomeDefinition = CoreRegistry.get(GenomeRegistry.class).getGenomeDefinition(genome1.genomeId);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
         Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.getPropertyDefinitionMap());
         ArrayList<GeneIndexGenomeMap.GenePropertyDefinition> genePropertyDefinitions =
                 new ArrayList(propertyDefinitionMap1.values());
 
-        while (geneIndex != genome1.genes.length()) {
+        while (geneIndex < genome1.genes.length()) {
             geneIndices = genePropertyDefinitions.get(geneCounter).geneIndices;
             breedingAlgorithm = genePropertyDefinitions.get(geneCounter++).breedingAlgorithm;
             if (geneIndex + geneIndices.length < genome1.genes.length()) {
