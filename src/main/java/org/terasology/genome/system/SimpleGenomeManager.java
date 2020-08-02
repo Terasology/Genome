@@ -40,8 +40,6 @@ import java.util.Map;
 @RegisterSystem
 @Share(GenomeManager.class)
 public class SimpleGenomeManager extends BaseComponentSystem implements GenomeManager {
-    @In
-    private GenomeRegistry genomeRegistry;
 
     @ReceiveEvent(priority = EventPriority.PRIORITY_CRITICAL)
     public void Breed(OnBreed event, EntityRef entity, GenomeComponent genomeComponent) {
@@ -135,6 +133,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             return false;
         }
 
+        GenomeRegistry genomeRegistry = CoreRegistry.get(GenomeRegistry.class);
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
         if (genomeDefinition == null) {
             return false;
@@ -157,6 +156,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             return null;
         }
 
+        GenomeRegistry genomeRegistry = CoreRegistry.get(GenomeRegistry.class);
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome.genomeId);
         if (genomeDefinition == null) {
             return null;
