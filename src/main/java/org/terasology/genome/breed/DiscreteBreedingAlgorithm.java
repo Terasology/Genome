@@ -49,7 +49,7 @@ public class DiscreteBreedingAlgorithm implements BreedingAlgorithm {
             return false;
         }
 
-        return (genes1.compareToIgnoreCase(genes2)) == 0;
+         return (genes1.length()==genes2.length());
     }
 
     /**
