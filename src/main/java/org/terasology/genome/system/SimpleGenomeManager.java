@@ -26,13 +26,11 @@ import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.component.GenomeComponent;
 import org.terasology.genome.events.OnBreed;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
-import org.terasology.genome.genomeMap.GenomeMap;
+import org.terasology.registry.CoreRegistry;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -42,8 +40,6 @@ import java.util.Map;
 @RegisterSystem
 @Share(GenomeManager.class)
 public class SimpleGenomeManager extends BaseComponentSystem implements GenomeManager {
-    @In
-    private GenomeRegistry genomeRegistry;
 
     @ReceiveEvent(priority = EventPriority.PRIORITY_CRITICAL)
     public void Breed(OnBreed event, EntityRef entity, GenomeComponent genomeComponent) {
@@ -97,14 +93,14 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             return false;
         }
 
-        GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
-        // here we may need to add something incase SeedBasedGenomeMap is used for the definition
+
+        GenomeDefinition genomeDefinition = CoreRegistry.get(GenomeRegistry.class).getGenomeDefinition(genome1.genomeId);
         GeneIndexGenomeMap genomeMap1 = (GeneIndexGenomeMap) genomeDefinition.getGenomeMap();
-        Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.propertyDefinitionMap);
+        Map propertyDefinitionMap1 = new LinkedHashMap(genomeMap1.getPropertyDefinitionMap());
         ArrayList<GeneIndexGenomeMap.GenePropertyDefinition> genePropertyDefinitions =
                 new ArrayList(propertyDefinitionMap1.values());
 
-        while (geneIndex != genome1.genes.length()) {
+        while (geneIndex < genome1.genes.length()) {
             geneIndices = genePropertyDefinitions.get(geneCounter).geneIndices;
             breedingAlgorithm = genePropertyDefinitions.get(geneCounter++).breedingAlgorithm;
             if (geneIndex + geneIndices.length < genome1.genes.length()) {
@@ -137,6 +133,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             return false;
         }
 
+        GenomeRegistry genomeRegistry = CoreRegistry.get(GenomeRegistry.class);
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome1.genomeId);
         if (genomeDefinition == null) {
             return false;
@@ -159,6 +156,7 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
             return null;
         }
 
+        GenomeRegistry genomeRegistry = CoreRegistry.get(GenomeRegistry.class);
         GenomeDefinition genomeDefinition = genomeRegistry.getGenomeDefinition(genome.genomeId);
         if (genomeDefinition == null) {
             return null;

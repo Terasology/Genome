@@ -27,7 +27,7 @@ import java.util.Map;
  * An implementation of GenomeMap.
  */
 public class GeneIndexGenomeMap implements GenomeMap {
-    public Map<String, GenePropertyDefinition> propertyDefinitionMap = new LinkedHashMap<>();
+    private Map<String, GenePropertyDefinition> propertyDefinitionMap = new LinkedHashMap<>();
 
     /**
      * Add a new named property to the genome map.
@@ -52,16 +52,6 @@ public class GeneIndexGenomeMap implements GenomeMap {
     }
 
     /**
-     * Get the breeding algorithm of the specified property.
-     *
-     * @param propertyName The name of the property to be added
-     */
-    public BreedingAlgorithm getPropertyBreedingAlgorithm(String propertyName) {
-        return propertyDefinitionMap.get(propertyName).breedingAlgorithm;
-    }
-
-
-    /**
      * Get the value of a named property for the specified genes of an organism.
      *
      * @param property Name of the property
@@ -84,6 +74,15 @@ public class GeneIndexGenomeMap implements GenomeMap {
             genesForProperty.append(genes.charAt(definition.geneIndices[i]));
         }
         return (T) definition.transformation.apply(genesForProperty.toString());
+    }
+
+    /**
+     * Get the Property Definition Map for a Genome Map
+     *
+     * @return The property definition map
+     */
+    public final Map<String, GenePropertyDefinition> getPropertyDefinitionMap() {
+        return propertyDefinitionMap;
     }
 
     public static final class GenePropertyDefinition<T> {
