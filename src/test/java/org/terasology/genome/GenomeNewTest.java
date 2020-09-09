@@ -1,48 +1,24 @@
-/*
- * Copyright 2020 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 
 package org.terasology.genome;
 
-import org.junit.Before;
+import com.google.common.base.Function;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import com.google.common.base.Function;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.genome.GenomeDefinition;
-import org.terasology.genome.GenomeRegistry;
 import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.breed.MonoploidBreedingAlgorithm;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.genome.breed.mutator.VocabularyGeneMutator;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
-import org.terasology.genome.genomeMap.SeedBasedGenomeMap;
-import org.terasology.registry.In;
-import org.terasology.world.WorldProvider;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * A test to check working of multiple traits with different breeding algorithms. Addition of multiple breeding
@@ -65,7 +41,7 @@ class GenomeNewTest {
     @Test
     void testContinuousTrait() {
         GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
-        int geneIndices[] = new int[]{0};
+        int[] geneIndices = new int[]{0};
         genomeMap.addProperty("filling", geneIndices, Integer.class, defaultBreedingAlgorithm,
                 new Function<String, Integer>() {
                     @Nullable
@@ -84,7 +60,7 @@ class GenomeNewTest {
     @Test
     void testDiscreteTrait() {
         GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
-        int geneIndices[] = new int[]{0, 1};
+        int[] geneIndices = new int[]{0, 1};
         genomeMap.addProperty("height", geneIndices, Integer.class, defaultBreedingAlgorithm,
                 new Function<String, Integer>() {
                     @Nullable
@@ -112,8 +88,8 @@ class GenomeNewTest {
         String g1 = "TTAF";
         String g2 = "ttKK";
         GeneIndexGenomeMap genomeMap = new GeneIndexGenomeMap();
-        int geneDepends[] = new int[]{0, 1};
-        int geneIndices[];
+        int[] geneDepends = new int[]{0, 1};
+        int[] geneIndices;
 
         String propertyType = "discrete";
         genomeMap.addProperty("height", geneDepends, Integer.class, defaultBreedingAlgorithm,
