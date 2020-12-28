@@ -1,25 +1,11 @@
-/*
- * Copyright 2014 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.genome.breed;
 
-import org.terasology.anotherWorld.util.alpha.IdentityAlphaFunction;
-import org.terasology.anotherWorld.util.alpha.UniformNoiseAlpha;
+import org.joml.Math;
+import org.joml.RoundingMode;
+import org.joml.Vector2ic;
 import org.terasology.genome.breed.mutator.GeneMutator;
-import org.terasology.math.TeraMath;
-import org.terasology.math.geom.Vector2i;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.SimplexNoise;
 import org.terasology.utilities.random.FastRandom;
@@ -33,7 +19,6 @@ public class BiodiversityGenerator {
     private String baseGenome;
     private GeneMutator geneMutator;
     private float areaDiversity;
-    private UniformNoiseAlpha uniformNoise = new UniformNoiseAlpha(IdentityAlphaFunction.singleton());
 
     /**
      * Constructor preparing a range of noise and probabilities to be used by this generator.
@@ -64,7 +49,8 @@ public class BiodiversityGenerator {
     }
 
     private float getValueFromNoise(Noise noise, float x, float y) {
-        return uniformNoise.apply(TeraMath.clamp(noise.noise(x, y) + 1) / 2f);
+        float val = noise.noise(x, y);
+        return (float) (1.0 / (1.0 + Math.exp(-val))); // sigmoid function
     }
 
     /**
@@ -73,12 +59,12 @@ public class BiodiversityGenerator {
      * @param worldLocation The location which the organism is expected to inhabit
      * @return              The genes of an organism expected to inhabit the given location
      */
-    public String generateGenes(Vector2i worldLocation) {
+    public String generateGenes(Vector2ic worldLocation) {
         char[] result = baseGenome.toCharArray();
         for (int i = 0; i < mutationPositionNoises.length; i++) {
-            int mutationPosition = TeraMath.floorToInt(result.length
-                    * getValueFromNoise(mutationPositionNoises[i], areaDiversity * worldLocation.x, areaDiversity * worldLocation.y));
-            float mutationInput = getValueFromNoise(mutationInputNoises[i], areaDiversity * worldLocation.x, areaDiversity * worldLocation.y);
+            int mutationPosition = Math.roundUsing(result.length
+                    * getValueFromNoise(mutationPositionNoises[i], areaDiversity * worldLocation.x(), areaDiversity * worldLocation.y()), RoundingMode.FLOOR);
+            float mutationInput = getValueFromNoise(mutationInputNoises[i], areaDiversity * worldLocation.x(), areaDiversity * worldLocation.y());
             result[mutationPosition] = geneMutator.mutateGene(mutationInput, mutationPosition, result[mutationPosition]);
         }
         return new String(result);
