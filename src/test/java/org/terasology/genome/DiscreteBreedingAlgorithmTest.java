@@ -25,8 +25,8 @@ import org.terasology.genome.breed.mutator.VocabularyGeneMutator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class DiscreteBreedingAlgorithmTest {
@@ -36,7 +36,7 @@ class DiscreteBreedingAlgorithmTest {
         BreedingAlgorithm breedingAlgorithm = new DiscreteBreedingAlgorithm(0, geneMutator);
         String genes1 = "TT";
         String genes2 = "Tt";
-        List possibleGenes = new ArrayList<>();
+        List<String> possibleGenes = new ArrayList<>();
         possibleGenes.add("TT");
         possibleGenes.add("Tt");
         // Make sure to add 'tt' to the possibleGenes list if mutationChance of the breeding algorithm is greater than 0

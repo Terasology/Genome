@@ -16,7 +16,6 @@
 
 package org.terasology.genome;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Function;
@@ -25,8 +24,6 @@ import org.terasology.genome.breed.MonoploidBreedingAlgorithm;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.genome.breed.mutator.VocabularyGeneMutator;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
-import org.terasology.registry.In;
-import org.terasology.world.WorldProvider;
 
 import javax.annotation.Nullable;
 
