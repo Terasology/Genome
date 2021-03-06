@@ -16,23 +16,15 @@
 
 package org.terasology.genome;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Function;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.genome.GenomeDefinition;
-import org.terasology.genome.GenomeRegistry;
 import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.breed.MonoploidBreedingAlgorithm;
 import org.terasology.genome.breed.mutator.GeneMutator;
 import org.terasology.genome.breed.mutator.VocabularyGeneMutator;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
-import org.terasology.genome.genomeMap.SeedBasedGenomeMap;
-import org.terasology.registry.In;
-import org.terasology.world.WorldProvider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -40,7 +32,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
