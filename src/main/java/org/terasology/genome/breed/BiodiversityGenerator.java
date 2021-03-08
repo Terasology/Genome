@@ -5,10 +5,10 @@ package org.terasology.genome.breed;
 import org.joml.Math;
 import org.joml.RoundingMode;
 import org.joml.Vector2ic;
+import org.terasology.engine.utilities.procedural.Noise;
+import org.terasology.engine.utilities.procedural.SimplexNoise;
+import org.terasology.engine.utilities.random.FastRandom;
 import org.terasology.genome.breed.mutator.GeneMutator;
-import org.terasology.utilities.procedural.Noise;
-import org.terasology.utilities.procedural.SimplexNoise;
-import org.terasology.utilities.random.FastRandom;
 
 /**
  * Assists in generating organisms that have diverse genes based on their spawn area.

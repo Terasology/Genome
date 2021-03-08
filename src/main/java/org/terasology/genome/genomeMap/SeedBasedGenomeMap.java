@@ -16,11 +16,11 @@
 package org.terasology.genome.genomeMap;
 
 import com.google.common.base.Function;
+import org.terasology.engine.registry.CoreRegistry;
+import org.terasology.engine.utilities.random.FastRandom;
+import org.terasology.engine.world.WorldProvider;
 import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.util.CombinatoricsUtils;
-import org.terasology.registry.CoreRegistry;
-import org.terasology.utilities.random.FastRandom;
-import org.terasology.world.WorldProvider;
 
 /**
  * An extension of the GeneIndexGenomeMap class which adds seed based properties. Seed based properties are properties

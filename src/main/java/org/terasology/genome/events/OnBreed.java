@@ -15,8 +15,8 @@
  */
 package org.terasology.genome.events;
 
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.Event;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.Event;
 
 public class OnBreed implements Event {
     private EntityRef organism1;

@@ -15,7 +15,7 @@
  */
 package org.terasology.genome.util;
 
-import org.terasology.utilities.random.FastRandom;
+import org.terasology.engine.utilities.random.FastRandom;
 
 import java.util.ArrayList;
 import java.util.List;

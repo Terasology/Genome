@@ -15,10 +15,7 @@
  */
 package org.terasology.genome.breed;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.terasology.genome.breed.mutator.GeneMutator;
-import org.terasology.utilities.random.FastRandom;
+import org.terasology.engine.utilities.random.FastRandom;
 
 public class FavourableWeightedBreedingAlgorithm implements BreedingAlgorithm {
     private int minimumCrossSimilarity;
