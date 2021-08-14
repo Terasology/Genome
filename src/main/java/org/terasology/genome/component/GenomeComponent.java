@@ -62,7 +62,7 @@ public class GenomeComponent implements Component<GenomeComponent>, ItemDifferen
     }
 
     @Override
-    public void copy(GenomeComponent other) {
+    public void copyFrom(GenomeComponent other) {
         this.genomeId = other.genomeId;
         this.genomeId = other.genes;
     }
