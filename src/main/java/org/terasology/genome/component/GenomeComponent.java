@@ -1,32 +1,19 @@
-/*
- * Copyright 2014 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.genome.component;
 
-import org.terasology.engine.entitySystem.Component;
-import org.terasology.module.inventory.components.ItemDifferentiating;
 import org.terasology.engine.network.Replicate;
 import org.terasology.engine.world.block.ForceBlockActive;
 import org.terasology.engine.world.block.items.AddToBlockBasedItem;
+import org.terasology.gestalt.entitysystem.component.Component;
+import org.terasology.module.inventory.components.ItemDifferentiating;
 
 /**
  * A component that defines genome-related attributes of an entity.
  */
 @ForceBlockActive
 @AddToBlockBasedItem
-public class GenomeComponent implements Component, ItemDifferentiating {
+public class GenomeComponent implements Component<GenomeComponent>, ItemDifferentiating {
     /** The type of the genome. */
     @Replicate
     public String genomeId;
@@ -72,5 +59,11 @@ public class GenomeComponent implements Component, ItemDifferentiating {
         int result = genomeId != null ? genomeId.hashCode() : 0;
         result = 31 * result + (genes != null ? genes.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public void copyFrom(GenomeComponent other) {
+        this.genomeId = other.genomeId;
+        this.genomeId = other.genes;
     }
 }
