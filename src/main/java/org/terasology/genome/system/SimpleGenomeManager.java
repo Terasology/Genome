@@ -18,7 +18,6 @@ package org.terasology.genome.system;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
 import org.terasology.engine.entitySystem.event.Priority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.registry.CoreRegistry;
@@ -29,6 +28,7 @@ import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.component.GenomeComponent;
 import org.terasology.genome.events.OnBreed;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
