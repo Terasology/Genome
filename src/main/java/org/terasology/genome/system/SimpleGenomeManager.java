@@ -17,6 +17,7 @@ package org.terasology.genome.system;
 
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
@@ -40,7 +41,8 @@ import java.util.Map;
 @Share(GenomeManager.class)
 public class SimpleGenomeManager extends BaseComponentSystem implements GenomeManager {
 
-    @ReceiveEvent(priority = EventPriority.PRIORITY_CRITICAL)
+    @Priority(EventPriority.PRIORITY_CRITICAL)
+    @ReceiveEvent
     public void Breed(OnBreed event, EntityRef entity, GenomeComponent genomeComponent) {
         EntityRef organism1 = event.getOrganism1();
         EntityRef organism2 = event.getOrganism2();
