@@ -1,18 +1,5 @@
-/*
- * Copyright 2020 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 
 package org.terasology.genome.breed;
 
@@ -22,14 +9,14 @@ import org.terasology.engine.utilities.random.FastRandom;
 import org.terasology.genome.breed.mutator.GeneMutator;
 
 /**
- * A breeding algorithm for continuous traits It uses mutations for values outside of values between parent traits
- * Slightly higher mutation values are recommended with this breeding algorithm
+ * A breeding algorithm for continuous traits It uses mutations for values outside of values between parent traits Slightly higher mutation
+ * values are recommended with this breeding algorithm
  */
 public class ContinuousBreedingAlgorithm implements BreedingAlgorithm {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscreteBreedingAlgorithm.class);
+
     private float mutationChance;
     private GeneMutator geneMutator;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DiscreteBreedingAlgorithm.class);
 
     public ContinuousBreedingAlgorithm(float mutationChance, GeneMutator geneMutator) {
         this.mutationChance = mutationChance;
@@ -49,7 +36,7 @@ public class ContinuousBreedingAlgorithm implements BreedingAlgorithm {
             return false;
         }
 
-         return (genes1.length()==genes2.length());
+        return (genes1.length() == genes2.length());
     }
 
     /**
@@ -61,8 +48,8 @@ public class ContinuousBreedingAlgorithm implements BreedingAlgorithm {
      */
     @Override
     public String produceCross(String genes1, String genes2) {
-        String cross1 = "";
-        String cross2 = "";
+        StringBuilder cross1 = new StringBuilder();
+        StringBuilder cross2 = new StringBuilder();
 
         FastRandom rand = new FastRandom();
 
@@ -71,22 +58,22 @@ public class ContinuousBreedingAlgorithm implements BreedingAlgorithm {
         for (int i = 0; i < genes1.length(); i++) {
             if (mutationChance >= rand.nextFloat()) {
                 char gene = geneMutator.mutateGene(rand.nextFloat(), i, genes1.charAt(i));
-                cross1 += "" + gene;
+                cross1.append("").append(gene);
             } else {
-                cross1 += "" + genes1.charAt(i);
+                cross1.append("").append(genes1.charAt(i));
             }
 
             if (mutationChance >= rand.nextFloat()) {
                 int geneIndex = rand.nextInt(genes2.length());
                 char gene = geneMutator.mutateGene(rand.nextFloat(), i, genes2.charAt(i));
-                cross2 += "" + gene;
+                cross2.append("").append(gene);
             } else {
-                cross2 += "" + genes2.charAt(i);
+                cross2.append("").append(genes2.charAt(i));
             }
         }
 
-        char[] chars1 = cross1.toCharArray();
-        char[] chars2 = cross2.toCharArray();
+        char[] chars1 = cross1.toString().toCharArray();
+        char[] chars2 = cross2.toString().toCharArray();
 
         for (int j = 0; j < genes1.length(); j++) {
             result.append(rand.nextBoolean() ? chars1[j] : chars2[j]);

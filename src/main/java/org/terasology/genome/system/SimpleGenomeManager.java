@@ -1,23 +1,10 @@
-/*
- * Copyright 2014 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.genome.system;
 
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
 import org.terasology.engine.registry.CoreRegistry;
@@ -28,6 +15,7 @@ import org.terasology.genome.breed.BreedingAlgorithm;
 import org.terasology.genome.component.GenomeComponent;
 import org.terasology.genome.events.OnBreed;
 import org.terasology.genome.genomeMap.GeneIndexGenomeMap;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -40,8 +28,9 @@ import java.util.Map;
 @Share(GenomeManager.class)
 public class SimpleGenomeManager extends BaseComponentSystem implements GenomeManager {
 
-    @ReceiveEvent(priority = EventPriority.PRIORITY_CRITICAL)
-    public void Breed(OnBreed event, EntityRef entity, GenomeComponent genomeComponent) {
+    @Priority(EventPriority.PRIORITY_CRITICAL)
+    @ReceiveEvent
+    public void breed(OnBreed event, EntityRef entity, GenomeComponent genomeComponent) {
         EntityRef organism1 = event.getOrganism1();
         EntityRef organism2 = event.getOrganism2();
         EntityRef offspring = event.getOffspring();
@@ -67,21 +56,20 @@ public class SimpleGenomeManager extends BaseComponentSystem implements GenomeMa
     }
 
     /**
-     * Applies genetic information to the offspring by breeding the two given organisms. If the two organisms cannot
-     * breed, <code>false</code> will be returned, and no changes will be made to the offspring.
+     * Applies genetic information to the offspring by breeding the two given organisms. If the two organisms cannot breed,
+     * <code>false</code> will be returned, and no changes will be made to the offspring.
      *
      * @param organism1 The first organism
      * @param organism2 The second organism
      * @param offspring The offspring
-     * @return Whether the two organisms were bred successfully and the resulting information was applied to the
-     *         offspring
+     * @return Whether the two organisms were bred successfully and the resulting information was applied to the offspring
      */
 
     @Override
     public boolean applyBreeding(EntityRef organism1, EntityRef organism2, EntityRef offspring) {
         int geneCounter = 0;
         int geneIndex = 0;
-        int geneIndices[];
+        int[] geneIndices;
         String resultGenes = "";
         BreedingAlgorithm breedingAlgorithm;
 
