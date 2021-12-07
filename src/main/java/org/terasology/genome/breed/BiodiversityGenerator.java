@@ -1,4 +1,4 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.genome.breed;
 
@@ -63,8 +63,10 @@ public class BiodiversityGenerator {
         char[] result = baseGenome.toCharArray();
         for (int i = 0; i < mutationPositionNoises.length; i++) {
             int mutationPosition = Math.roundUsing(result.length
-                    * getValueFromNoise(mutationPositionNoises[i], areaDiversity * worldLocation.x(), areaDiversity * worldLocation.y()), RoundingMode.FLOOR);
-            float mutationInput = getValueFromNoise(mutationInputNoises[i], areaDiversity * worldLocation.x(), areaDiversity * worldLocation.y());
+                    * getValueFromNoise(mutationPositionNoises[i], areaDiversity * worldLocation.x(),
+                    areaDiversity * worldLocation.y()), RoundingMode.FLOOR);
+            float mutationInput = getValueFromNoise(mutationInputNoises[i], areaDiversity * worldLocation.x(),
+                    areaDiversity * worldLocation.y());
             result[mutationPosition] = geneMutator.mutateGene(mutationInput, mutationPosition, result[mutationPosition]);
         }
         return new String(result);
